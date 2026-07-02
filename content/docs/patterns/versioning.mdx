@@ -1,0 +1,30 @@
+---
+title: "Versioning"
+description: "2 Canton design patterns for versioning."
+---
+
+
+## Pre-flight an SDK upgrade
+
+<Callout>**Problem.** Splice and Canton ship every one to two weeks. Teams discover breaking changes only after CI breaks.</Callout>
+
+**Solution.** Run `get_breaking_changes(from, to)` against the target tags before bumping. It joins the GitHub release notes with forum activity in the post-release window, so you see both announced and observed regressions.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Code-&-Errors)
+
+---
+
+## Confirm you're on the current Canton + Splice
+
+<Callout>**Problem.** Curated KBs and tutorials lag the live release feed by weeks.</Callout>
+
+**Solution.** `get_current_versions` joins github_releases tags with validator-announce mailing-list posts. Cross-check static KBs against this before trusting them.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Releases-&-SDKs)
+

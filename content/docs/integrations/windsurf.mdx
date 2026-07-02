@@ -1,0 +1,31 @@
+---
+title: "Windsurf"
+description: "Wire CCPEDIA into Codeium's AI IDE."
+---
+
+<Steps>
+  ### Open mcp_config.json
+
+    Path: `~/.codeium/windsurf/mcp_config.json`
+  
+  ### Add the server
+
+    ```json
+    {
+      "mcpServers": {
+        "ccpedia": {
+          "serverUrl": "https://ccpedia.xyz/mcp"
+        }
+      }
+    }
+    ```
+  
+  ### Restart Windsurf
+
+    Quit and reopen. Tools register on the next startup.
+  
+</Steps>
+
+<Callout type="warn">The Windsurf field name is `serverUrl`, not `url` (Cursor uses `url`). Mixing them up is the most common config error.</Callout>
+
+[Windsurf MCP docs ↗](https://docs.codeium.com/windsurf/mcp)

@@ -1,0 +1,17 @@
+{
+  "title": "Design patterns",
+  "pages": [
+    "overview",
+    "ledger-fundamentals",
+    "tooling",
+    "versioning",
+    "debugging",
+    "token-standard",
+    "governance",
+    "sv-operations",
+    "dev-fund",
+    "community",
+    "daml",
+    "public-goods"
+  ]
+}

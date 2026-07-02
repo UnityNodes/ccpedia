@@ -1,0 +1,163 @@
+---
+title: "Featured apps and SV"
+description: "Live Featured Apps from the Scan API and the Super Validator operations calendar. Schedules, freezes, upgrades, releases."
+---
+
+Live Featured Apps from the Scan API and the Super Validator operations calendar. Schedules, freezes, upgrades, releases.
+
+8 tools in this group.
+
+### `get_app_metrics`
+
+Fetch metrics for one specific Featured App by its app_id (contract id from the Scan API). Returns name, category, TVL, 24h volume, user count, last activity, and any cross-referenced ecosystem_projects metadata. Canton-specific. TVL / volume / users may be null when only the Scan API source is available.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="app_id" type="string" required>Featured-app contract id (long hex string from list_featured_apps).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_app_metrics","arguments":{}}}'
+```
+
+---
+
+### `get_network_state`
+
+Get the latest Canton Network ON-CHAIN state snapshot from the public Scan API (api.cantonnodes.com): Super Validator list & count, voting threshold, sequencer count, latest mining round, featured-apps count, and cumulative app/validator rewards in CC. Canton-only, cached snapshot (captured_at). This is live network telemetry. NOT CCPEDIA content counts (get_network_stats) and NOT price/TVL (get_token_market).
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_network_state","arguments":{}}}'
+```
+
+---
+
+### `get_network_stats`
+
+Get CCPEDIA's CONTENT-CATALOG metrics: how many Canton items CCPEDIA has indexed. counts of CIPs (total/in-review/final), forum topics & posts, GitHub issues/PRs, dev-fund proposals, docs pages, videos, blog posts, mailing threads, and radar items. This is CCPEDIA coverage/inventory, NOT live Canton on-chain stats. for on-chain validators/rounds use get_network_state, for price/TVL use get_token_market.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_network_stats","arguments":{}}}'
+```
+
+---
+
+### `get_recent_deployments`
+
+Recent completed SV deployments/releases from sv_operations_calendar (operation_type in deploy|release|upgrade), cross-referenced with github_releases when the title names a SemVer-looking tag. Canton-specific. Use to answer "what shipped on MainNet recently?".
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_recent_deployments","arguments":{}}}'
+```
+
+---
+
+### `get_sv_schedule`
+
+Show the Super Validator operations schedule from the Canton Foundation's sv-cal.canton.foundation feed: planned releases, deploys, upgrades, governance windows, freezes. Filter by environment. Canton-specific. Use when an operator asks "what is happening on MainNet next?" or "when is the next Splice cut?".
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="environment" type="string">Restrict to one environment. Omit for all.</ParamField>
+<ParamField path="upcoming_only" type="boolean">If true (default), only events with start_at &gt;= today.</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 20).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_sv_schedule","arguments":{}}}'
+```
+
+---
+
+### `get_token_market`
+
+Get the latest cached market snapshot for CANTON COIN (CC) ONLY: USD price, 24h change, market cap, 24h volume, total Canton DeFi TVL, and per-protocol TVL on Canton. Canton-specific. cannot price BTC, ETH or any other asset (use a general crypto-price MCP like CoinGecko for those). Snapshot from CCPEDIA's sync (captured_at timestamp), not a live exchange feed.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_token_market","arguments":{}}}'
+```
+
+---
+
+### `get_upcoming_operations`
+
+Convenience wrapper: SV operations in the next N days, all environments, all operation types. Canton-specific. Quick "what should I be ready for this week?" answer for validator/SV ops.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="days" type="integer" required>Days ahead to look (1-180).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_upcoming_operations","arguments":{}}}'
+```
+
+---
+
+### `list_featured_apps`
+
+List Canton Network Featured Apps from the live Scan-API-sourced catalogue. Filter by category (when known) and choose ordering. Canton-specific. Use for "what dApps are live on Canton?" or to discover providers offering a particular service. Returns name, provider/app_id, category, last_activity, url.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="category" type="string">Filter by category, e.g. "Validator", "DeFi", "Tokenized Assets" (case-insensitive substring match).</ParamField>
+<ParamField path="sort" type="string">Sort key (default: recent).</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 25).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_featured_apps","arguments":{}}}'
+```
+

@@ -1,0 +1,12 @@
+{
+  "title": "Integrations",
+  "pages": [
+    "overview",
+    "claude-desktop",
+    "cursor",
+    "windsurf",
+    "claude-code",
+    "zed",
+    "generic"
+  ]
+}

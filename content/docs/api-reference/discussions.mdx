@@ -1,0 +1,17 @@
+---
+title: "Discussions"
+description: "Forum, mailing-list, and GitHub-discussion firehose."
+---
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /api/v1/discussions?q=&source=&limit=` | Unified search across forum, mailing, and github_discussions |
+| `GET /api/v1/github-discussions?repo=` | GitHub discussions only, filtered by repo |
+
+Full schema: [`/api/v1/openapi.json`](https://ccpedia.xyz/api/v1/openapi.json).
+
+## Example
+
+```bash
+curl -s 'https://ccpedia.xyz/api/v1/discussions?q=topology&limit=5'
+```

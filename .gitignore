@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+.next/
+.source/
+out/
+*.log
+.env
+.env.*
+!.env.example
+_migrate/

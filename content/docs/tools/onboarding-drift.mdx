@@ -1,0 +1,140 @@
+---
+title: "Onboarding and drift"
+description: "Get started fast, follow a learning path, see where curated KBs drift from live Canton state."
+---
+
+Get started fast, follow a learning path, see where curated KBs drift from live Canton state.
+
+7 tools in this group.
+
+### `detect_drift`
+
+Find contradictions between docs, forum and GitHub on a topic. Returns counts of how each surface talks about it plus the most recent doc-page and forum statement so the caller can spot mismatches. Distinct from get_kb_drift (which compares foundation_kb to live releases).
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Topic to cross-check.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"detect_drift","arguments":{}}}'
+```
+
+---
+
+### `get_api_reference`
+
+Get a structured reference (ports, endpoints, services, links) for one specific Canton Network API: JSON Ledger API, gRPC Ledger API, Scan API, Validator API, Token Standard APIs, Admin API, or Splice HTTP. Canton-specific. not for GitHub, REST, or non-Canton APIs. Use when the user names one of these Canton APIs; use search/semantic_search for broader doc lookups.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="api" type="string" required>Which API to look up.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_api_reference","arguments":{}}}'
+```
+
+---
+
+### `get_faq`
+
+Look up answers in the Canton Network developer FAQ (Canton Foundation curated, hackathon-tested): Canton/Daml installation, party creation, Daml contracts, Ledger/Scan APIs, testnet deployment, Canton Coin/token standard, common gotchas. Returns top 3 matches. Canton-specific. do NOT use for other blockchains or general/non-Canton questions. For a full onboarding path use get_started_guide; for API endpoint details use get_api_reference.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="question" type="string" required>Developer's question, e.g. "how do I install", "create party", "deploy to testnet".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_faq","arguments":{}}}'
+```
+
+---
+
+### `get_kb_drift`
+
+Report where the Foundation Build-on-Canton KB snapshot (which CCPEDIA syncs daily from github.com/canton-network-devs/Build-on-Canton-MCP) diverges from CCPEDIA's live signals (github_releases, mailing_messages). Returns each drifted (category, key) with the KB value, the live value derived right now, the drift age in days, and severity (info | warn | stale). Use this when a user or another agent quotes a Canton SDK / Splice / DPM / Daml version from foundation_kb and you need to confirm whether it is still current. CCPEDIA-specific transparency layer. no other Canton MCP server exposes this kind of cross-source quality audit. Canton/Daml/Splice ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="refresh" type="boolean">If true, re-run the validator before returning the report. Default false uses the most recent stored findings.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_kb_drift","arguments":{}}}'
+```
+
+---
+
+### `get_radar`
+
+Get the Canton Network Radar. CCPEDIA's curated feed of time-sensitive ecosystem alerts: breaking changes, upgrade deadlines, protocol migrations and required validator actions, each with deadline, affected components and source link. Filter by level (critical/important/ecosystem/all). Canton-only. Use when a user asks what's changing, what's about to break, or what deadlines are approaching on Canton.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="level" type="string"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_radar","arguments":{}}}'
+```
+
+---
+
+### `get_started_guide`
+
+Generate a personalized Canton Network developer onboarding/quickstart path. Use when a developer asks how to start building, build a dApp, or develop on Canton specifically. Canton-only. do not use for onboarding to other chains or tools. Ask the user's background first (EVM, Solana, Sui/Move, Web, Enterprise, or New to Blockchain). Prefer this over 'search' for 'how to build / get started on Canton'; use get_faq for a single specific gotcha and get_api_reference for API details.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="background" type="string" required>Developer's primary background. Ask the user to select this before proceeding.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_started_guide","arguments":{}}}'
+```
+
+---
+
+### `learning_path`
+
+Construct a structured Canton onboarding sequence for a stated goal: whitepaper → relevant docs → CIPs to know → forum starter threads → talks. Canton-specific. Topic-driven (distinct from get_started_guide which is background-driven).
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="goal" type="string" required>What the learner wants to do, e.g. "build a Canton dApp", "operate a validator", "write a CIP".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"learning_path","arguments":{}}}'
+```
+

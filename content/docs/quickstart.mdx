@@ -1,0 +1,62 @@
+---
+title: "Quickstart"
+description: "Get CCPEDIA into your AI tool in under two minutes. No auth, no signup."
+---
+
+CCPEDIA serves its MCP at **`https://ccpedia.xyz/mcp`**. No auth. Rate limit is 60 calls per 15 minutes per IP. The same URL works for every supported AI client.
+
+## Step 1. Pick your tool
+
+<Cards>
+  <Card title="Claude Desktop" href="/integrations/claude-desktop">Easiest path. Recommended first time.</Card>
+  <Card title="Cursor" href="/integrations/cursor">Native streamable HTTP, no bridge.</Card>
+  <Card title="Windsurf" href="/integrations/windsurf">Codeium's AI IDE.</Card>
+  <Card title="Claude Code" href="/integrations/claude-code">Anthropic's CLI.</Card>
+  <Card title="Zed" href="/integrations/zed">High-performance editor.</Card>
+  <Card title="Any MCP client" href="/integrations/generic">Streamable HTTP, JSON-RPC 2.0.</Card>
+</Cards>
+
+## Step 2. Verify the connection
+
+After adding CCPEDIA, your client should see **78 tools**. Sanity-check from the terminal:
+
+```bash
+curl -s -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+You should see roughly 78 `tools` entries in the response.
+
+## Step 3. Ask a useful question
+
+Pick any of these. Just ask in plain language. Tool routing happens automatically.
+
+<Accordions type="single">
+  <Accordion title="What's the current Canton SDK version?">
+    Routes to `get_current_versions`. Joins github_releases tags with validator-announce mailing posts.
+  </Accordion>
+  <Accordion title="Diagnose this error: TOPOLOGY_TOO_MANY_PENDING_TOPOLOGY_TRANSACTIONS">
+    Routes to `diagnose_error`. Tokenises the error and searches forum threads and GitHub issues for prior fixes.
+  </Accordion>
+  <Accordion title="Show dev fund proposals related to validator monitoring">
+    Routes to `search_community` and `detect_builder_overlap`. Surfaces existing work to avoid duplication.
+  </Accordion>
+  <Accordion title="What does CIP-0056 require, and is it ready?">
+    Routes to `get_cip_implementation_status` and `detect_cip_dependency_chain`. Full readiness graph.
+  </Accordion>
+  <Accordion title="When is the next MainNet upgrade?">
+    Routes to `get_upcoming_operations`. Pulled from the SV calendar every 12 hours.
+  </Accordion>
+</Accordions>
+
+## Step 4. Pin the URL
+
+Once it works, save CCPEDIA in your client's persistent MCP config. Each [integration guide](/integrations/overview) shows the exact snippet to copy.
+
+## More
+
+- Interactive setup wizard with auto-detect and copy buttons: [ccpedia.xyz/for-ai](https://ccpedia.xyz/for-ai).
+- Live ping: [`POST /api/onboarding/ping`](https://ccpedia.xyz/api/onboarding/ping). Returns reachability and live tool count.
+- Source freshness for every sync: [ccpedia.xyz/status](https://ccpedia.xyz/status).

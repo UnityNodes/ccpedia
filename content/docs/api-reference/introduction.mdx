@@ -1,0 +1,38 @@
+---
+title: "REST API v1"
+description: "HTTP and JSON access to the same data as the MCP server. For dashboards, monitoring, and custom apps."
+---
+
+CCPEDIA exposes a read-only REST API at `https://ccpedia.xyz/api/v1/*` alongside the MCP server. Same data, no JSON-RPC envelope, traditional HTTP.
+
+## OpenAPI spec
+
+Full machine-readable spec: **[`/api/v1/openapi.json`](https://ccpedia.xyz/api/v1/openapi.json)**.
+
+## Auth and rate limit
+
+- No auth.
+- Same rate limit as MCP: 60 calls per 15 minutes per IP.
+- `Cache-Control` headers are set per endpoint. Honour them to stay under the limit.
+
+## Endpoint families
+
+<Cards>
+  <Card title="CIPs" href="/api-reference/cips">
+    Lookup, batch, mentions across surfaces.
+  </Card>
+  <Card title="Discussions" href="/api-reference/discussions">
+    Forum, mailing, and GitHub discussions.
+  </Card>
+  <Card title="Sources" href="/api-reference/sources">
+    Per-source freshness and record counts.
+  </Card>
+</Cards>
+
+## When to use REST instead of MCP
+
+- You're building a non-AI app: dashboard, status page, custom alerting.
+- You need to embed Canton data in a server that does not speak MCP.
+- You want predictable caching via standard HTTP headers.
+
+For AI assistants and agentic workflows, prefer MCP. Same data, less plumbing.

@@ -1,0 +1,17 @@
+{
+  "title": "Documentation",
+  "root": true,
+  "pages": [
+    "index",
+    "quickstart",
+    "what-is-mcp",
+    "---Integrations---",
+    "integrations",
+    "---Reference---",
+    "tools",
+    "patterns",
+    "api-reference",
+    "---Operations---",
+    "operations"
+  ]
+}

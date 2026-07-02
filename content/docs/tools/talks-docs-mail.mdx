@@ -1,0 +1,168 @@
+---
+title: "Talks, docs, and mail"
+description: "Canton YouTube talks, official documentation, whitepapers, the foundation knowledge-base, and four Canton mailing lists."
+---
+
+Canton YouTube talks, official documentation, whitepapers, the foundation knowledge-base, and four Canton mailing lists.
+
+8 tools in this group.
+
+### `get_doc`
+
+Fetch the FULL text of one indexed Canton-ecosystem documentation page (Canton/Daml/Splice and integrated partner docs) by its numeric id. Canton-specific. Use this AFTER search or semantic_search returns a doc id, to read complete commands, flags, and full sections a search snippet truncates. Requires an id. not a discovery tool; use search/semantic_search first.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="integer" required>Doc page ID (from search/semantic_search results)</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_doc","arguments":{}}}'
+```
+
+---
+
+### `get_foundation_info`
+
+Retrieve official Canton Foundation pages (canton.foundation): team and board bios, working groups, membership process, grants program. Free-text topic search over CCPEDIA's index of the canton.foundation site, returning matched-page snippets (not the curated knowledge base). Canton-only. Use when a user asks about Foundation people, governance structure, or member/grant processes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Free-text topic, e.g. "team", "executive director", "working groups", "membership", "grants", "board".</ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_foundation_info","arguments":{}}}'
+```
+
+---
+
+### `get_mailing_thread`
+
+Get every message (oldest first) in a specific Canton Network governance mailing-list thread on lists.sync.global (cip-discuss, cip-vote, grants-discuss, etc.). Canton-only. Pass the thread id from list_mailing_threads. This is the email/mailing-list channel. not the web forum (get_discussion) or GitHub Discussions.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="string" required>Thread id, e.g. "cip-discuss-12345".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_mailing_thread","arguments":{}}}'
+```
+
+---
+
+### `get_video`
+
+Get a Canton Network video that CCPEDIA has cached (curated channels: Canton Network, Digital Asset, Sync Insights, Canton Foundation, Daml) by its YouTube id: title, channel, publish date, description and full transcript text if stored. CANTON-ONLY and limited to videos already in CCPEDIA's index. does NOT fetch arbitrary YouTube videos (use a dedicated YouTube tool for that). Obtain ids from list_videos or search.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="string" required>YouTube video id, e.g. "dQw4w9WgXcQ"</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_video","arguments":{}}}'
+```
+
+---
+
+### `get_whitepaper`
+
+Get the full extracted text of a specific Canton Network whitepaper by slug (e.g. 'canton-network-whitepaper'): title, tag, page count, PDF link, and body text (up to ~50k chars). Canton-only. Call list_whitepapers first to obtain valid slugs.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="slug" type="string" required>Whitepaper slug, e.g. "canton-network-whitepaper"</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_whitepaper","arguments":{}}}'
+```
+
+---
+
+### `list_mailing_threads`
+
+List threads from the Canton Network governance mailing lists (lists.sync.global groups: cip-discuss, cip-vote, cip-announce, globalSyncForum, grants-discuss, validator-announce). Filter by group, CIP number, or date. Canton-only. This is the EMAIL/mailing-list channel. distinct from the web forum (get_discussion) and GitHub Discussions (list_github_discussions). Returns thread metadata only; use get_mailing_thread for message bodies.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="group" type="string">Restrict to one of the six indexed groups.</ParamField>
+<ParamField path="cip_id" type="string">CIP number filter, e.g. "0117". Returns only threads tagged with this CIP.</ParamField>
+<ParamField path="since" type="string">Earliest last_post_at ISO date.</ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+<ParamField path="offset" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_mailing_threads","arguments":{}}}'
+```
+
+---
+
+### `list_videos`
+
+List Canton Network videos cached in CCPEDIA, filtered by channel (Canton Network, Digital Asset, Sync Insights, Canton Foundation, Daml), publish date (since), and transcript availability. CANTON-ONLY corpus. these are curated Canton ecosystem videos, not general YouTube. Returns metadata only (id, title, channel, date); call get_video with an id for the transcript.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="channel" type="string">Channel name filter, e.g. "Canton Network", "Digital Asset", "Sync Insights", "Canton Foundation", "Daml". Case-insensitive substring.</ParamField>
+<ParamField path="since" type="string">Earliest published_at (ISO date, e.g. "2026-01-01"). Default: no lower bound.</ParamField>
+<ParamField path="has_transcript" type="boolean">If true, only return videos with a stored transcript. If false, only those still missing one. Omit for both.</ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+<ParamField path="offset" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_videos","arguments":{}}}'
+```
+
+---
+
+### `list_whitepapers`
+
+List every Canton Network whitepaper indexed by CCPEDIA, returning slug, title, description, tag and page count (metadata only, no body). Use the returned slug with get_whitepaper to fetch full content. Canton-only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_whitepapers","arguments":{}}}'
+```
+

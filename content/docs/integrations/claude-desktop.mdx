@@ -1,0 +1,64 @@
+---
+title: "Claude Desktop"
+description: "Add CCPEDIA to Anthropic's Claude Desktop app. The easiest path."
+---
+
+<Steps>
+  ### Open the config file
+
+    Edit or create the Claude Desktop MCP config.
+
+    On macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`.
+    On Windows: `%APPDATA%\Claude\claude_desktop_config.json`.
+  
+  ### Add the CCPEDIA server block
+
+    ```json
+    {
+      "mcpServers": {
+        "ccpedia": {
+          "command": "npx",
+          "args": ["-y", "mcp-remote", "https://ccpedia.xyz/mcp"]
+        }
+      }
+    }
+    ```
+  
+  ### Restart Claude Desktop
+
+    Quit completely (Cmd+Q on macOS), then reopen. CCPEDIA tools appear in the tools picker.
+  
+  ### Try it
+
+    Ask: *"What's the current Canton SDK version?"* Claude should call `get_current_versions` and answer with live data.
+  
+</Steps>
+
+<Callout type="info">**Why `mcp-remote`?** Claude Desktop expects stdio transport. CCPEDIA serves streamable HTTP. The [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) bridge translates between the two. No other setup.</Callout>
+
+## Verification
+
+Run this from a terminal to confirm Claude Desktop can reach CCPEDIA:
+
+```bash
+curl -s -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | head -c 200
+```
+
+You should see JSON starting with `{"jsonrpc":"2.0"...`.
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="Claude Desktop says &quot;mcp-remote not found&quot;">
+    npm and npx must be installed. Run `node --version`. You need Node 18 or newer. On macOS with Homebrew: `brew install node`.
+  </Accordion>
+  <Accordion title="Tools don't appear after restart">
+    Check the config file is valid JSON. No trailing commas. Then quit Claude Desktop from the menu bar (not just close the window) and reopen.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP. Wait 15 minutes, or self-host the MCP server. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

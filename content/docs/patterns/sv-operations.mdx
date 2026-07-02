@@ -1,0 +1,30 @@
+---
+title: "SV operations"
+description: "2 Canton design patterns for sv operations."
+---
+
+
+## Plan around the next MainNet upgrade window
+
+<Callout>**Problem.** Ops teams hit traffic freezes / topology freezes / synchronizer upgrades by surprise.</Callout>
+
+**Solution.** Subscribe to the SV calendar via `get_upcoming_operations(days)` or query `get_sv_schedule(environment="MainNet")`. The calendar is synced from sv-cal.canton.foundation every 12 hours.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Featured-Apps-&-SV)
+
+---
+
+## Bootstrap a new validator without re-reading the docs end-to-end
+
+<Callout>**Problem.** Validator onboarding has many moving parts (topology, traffic balance, ValidatorLicense, sequencer).</Callout>
+
+**Solution.** Run `get_started_guide(background="enterprise")` for the structured path, then `get_sv_schedule(environment="DevNet")` to plan around the next upgrade. Cross-check `get_kb_drift()` so you're reading current values.
+
+
+
+**References:**
+- [CCPEDIA tools](/docs/tools)
+

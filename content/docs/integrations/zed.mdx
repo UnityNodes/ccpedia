@@ -1,0 +1,33 @@
+---
+title: "Zed"
+description: "Connect CCPEDIA to Zed's context server config."
+---
+
+<Steps>
+  ### Open Zed settings
+
+    On macOS press Cmd+, to open `~/.config/zed/settings.json`.
+  
+  ### Add the context_servers block
+
+    ```json
+    {
+      "context_servers": {
+        "ccpedia": {
+          "command": {
+            "path": "npx",
+            "args": ["-y", "mcp-remote", "https://ccpedia.xyz/mcp"]
+          },
+          "settings": {}
+        }
+      }
+    }
+    ```
+  
+  ### Reload
+
+    Cmd+Shift+P, then run `zed: reload settings`.
+  
+</Steps>
+
+[Zed MCP docs ↗](https://zed.dev/docs/assistant/model-context-protocol)

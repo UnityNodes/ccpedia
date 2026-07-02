@@ -1,0 +1,28 @@
+---
+title: "Status"
+description: "Live sync freshness and request rates for every CCPEDIA data source."
+---
+
+CCPEDIA publishes its own health at **[ccpedia.xyz/status](https://ccpedia.xyz/status)**. Fully public, refreshed every 60 seconds.
+
+## What you see
+
+- Overall state: `OK`, `Degraded`, or `Down`.
+- Per-source age across 25 syncs, each with its own freshness threshold.
+- 24-hour request counters: search hits, MCP calls, API requests, page visits.
+
+## Machine-readable
+
+`GET https://ccpedia.xyz/status/data` returns the same payload as JSON.
+
+```json
+{
+  "overall": "ok",
+  "generated_at": "2026-06-30T09:03:04.593Z",
+  "sources": [
+    { "name": "featured-apps", "last_run": "2026-06-30T09:00:33.788Z", "age_seconds": 150, "status": "fresh" }
+  ]
+}
+```
+
+Use it for monitoring, dashboards, status badges, or third-party integrations.

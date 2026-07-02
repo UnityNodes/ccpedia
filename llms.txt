@@ -1,0 +1,70 @@
+# CCPEDIA
+
+> The Canton Network knowledge platform. Continuously syncs every official Canton surface (forum, GitHub, docs, CIPs, mailing lists, videos, dev fund, ecosystem registry, validator calendar, app metrics) and exposes it to AI agents through one MCP endpoint and a REST API. No auth, read only, Apache 2.0.
+
+Live at https://ccpedia.xyz. MCP endpoint: https://ccpedia.xyz/mcp. Docs: https://docs.ccpedia.xyz.
+
+## Getting started
+
+- [Quickstart](https://docs.ccpedia.xyz/quickstart): connect any MCP client in two minutes.
+- [What is MCP](https://docs.ccpedia.xyz/what-is-mcp): the protocol in plain terms for Canton developers.
+
+## Client integrations
+
+- [Overview](https://docs.ccpedia.xyz/integrations/overview): decision matrix across clients.
+- [Claude Desktop](https://docs.ccpedia.xyz/integrations/claude-desktop): JSON config, screenshots.
+- [Claude Code](https://docs.ccpedia.xyz/integrations/claude-code): one-line CLI setup.
+- [Cursor](https://docs.ccpedia.xyz/integrations/cursor): project and global MCP config.
+- [Windsurf](https://docs.ccpedia.xyz/integrations/windsurf): Cascade setup.
+- [Zed](https://docs.ccpedia.xyz/integrations/zed): agent panel connection.
+- [Generic MCP client](https://docs.ccpedia.xyz/integrations/generic): raw URL + JSON snippet.
+
+## Tools (78 across 10 categories)
+
+- [Overview](https://docs.ccpedia.xyz/tools/overview): full catalog, grouped, with examples.
+- [Search](https://docs.ccpedia.xyz/tools/search): hybrid vector + FTS across the whole corpus.
+- [CIPs](https://docs.ccpedia.xyz/tools/cips): Canton Improvement Proposals, status history, vote records.
+- [Forum and community](https://docs.ccpedia.xyz/tools/forum-community): forum.canton.network threads and replies.
+- [Talks, docs, mailing lists](https://docs.ccpedia.xyz/tools/talks-docs-mail): YouTube transcripts, official docs, cip-discuss and related lists.
+- [Dev Fund](https://docs.ccpedia.xyz/tools/dev-fund): every proposal PR and issue, with metadata.
+- [Ecosystem](https://docs.ccpedia.xyz/tools/ecosystem): projects, apps, super validators.
+- [Featured apps and SVs](https://docs.ccpedia.xyz/tools/featured-apps-sv): curated highlights.
+- [Releases and SDKs](https://docs.ccpedia.xyz/tools/releases-sdks): GitHub releases and SDK metadata.
+- [Code errors](https://docs.ccpedia.xyz/tools/code-errors): diagnostic tool for common Canton errors.
+- [Onboarding drift](https://docs.ccpedia.xyz/tools/onboarding-drift): detects stale docs against upstream truth.
+
+## Canton design patterns (20 recipes)
+
+- [Overview](https://docs.ccpedia.xyz/patterns/overview): index and use cases.
+- [Ledger fundamentals](https://docs.ccpedia.xyz/patterns/ledger-fundamentals)
+- [DAML](https://docs.ccpedia.xyz/patterns/daml)
+- [Token standard](https://docs.ccpedia.xyz/patterns/token-standard)
+- [Governance](https://docs.ccpedia.xyz/patterns/governance)
+- [Versioning](https://docs.ccpedia.xyz/patterns/versioning)
+- [Debugging](https://docs.ccpedia.xyz/patterns/debugging)
+- [SV operations](https://docs.ccpedia.xyz/patterns/sv-operations)
+- [Dev Fund](https://docs.ccpedia.xyz/patterns/dev-fund)
+- [Community](https://docs.ccpedia.xyz/patterns/community)
+- [Public goods](https://docs.ccpedia.xyz/patterns/public-goods)
+- [Tooling](https://docs.ccpedia.xyz/patterns/tooling)
+
+## REST API
+
+- [Introduction](https://docs.ccpedia.xyz/api-reference/introduction): base URL, auth model, rate limits.
+- [Sources](https://docs.ccpedia.xyz/api-reference/sources): list live data sources and their sync state.
+- [CIPs](https://docs.ccpedia.xyz/api-reference/cips): CIP endpoints.
+- [Discussions](https://docs.ccpedia.xyz/api-reference/discussions): forum, GitHub, mailing list endpoints.
+- OpenAPI 3.1 spec: https://ccpedia.xyz/api/v1/openapi.json
+- Interactive reference: https://ccpedia.xyz/api/v1/reference
+
+## Operations
+
+- [Data sources](https://docs.ccpedia.xyz/operations/data-sources): the 25 live sources, their cadence, and what they cover.
+- [Status](https://docs.ccpedia.xyz/operations/status): current sync health per bucket.
+- [Metrics](https://docs.ccpedia.xyz/operations/metrics): counts of tools, sources, chunks.
+
+## Optional
+
+- [SHOWCASE](https://github.com/UnityNodes/ccpedia/blob/main/SHOWCASE.md): real examples of CCPEDIA answering ecosystem questions.
+- [SECURITY](https://github.com/UnityNodes/ccpedia/blob/main/SECURITY.md): threat model, reporting.
+- [CONTRIBUTING](https://github.com/UnityNodes/ccpedia/blob/main/CONTRIBUTING.md): how to fix, propose, report.

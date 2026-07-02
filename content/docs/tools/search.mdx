@@ -1,0 +1,346 @@
+---
+title: "Search"
+description: "Full-text and semantic search across every synced Canton source. Covers the forum, GitHub, docs, CIPs, mailing lists, videos, blog, whitepapers, and the ecosystem registry."
+---
+
+Full-text and semantic search across every synced Canton source. Covers the forum, GitHub, docs, CIPs, mailing lists, videos, blog, whitepapers, and the ecosystem registry.
+
+17 tools in this group.
+
+### `find_apps_by_pattern`
+
+Pattern-search the Featured Apps catalogue by free-text query across name, category, and description. Returns the best matches in name+category, falling back to description. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="pattern" type="string" required>Free text, e.g. "AMM", "wallet", "DeFi vault", "validator".</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_apps_by_pattern","arguments":{}}}'
+```
+
+---
+
+### `find_cip_for_feature`
+
+Given a Canton feature or capability description, find the matching CIP(s) by searching titles and bodies. Canton-specific. Use to answer "is there a CIP for X?".
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="feature" type="string" required>Feature description, e.g. "wallet abstraction", "token standard", "validator staking".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_cip_for_feature","arguments":{}}}'
+```
+
+---
+
+### `find_code_examples`
+
+Find Canton/Daml code snippets in forum posts on a topic. Filters forum_posts where the rendered HTML contains `&lt;pre&gt;` or `&lt;code&gt;` blocks AND matches the topic keyword. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Topic keyword.</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 5).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_code_examples","arguments":{}}}'
+```
+
+---
+
+### `find_collaboration_opportunities`
+
+Given one Canton ecosystem project, find others with complementary tags/category that could plug in. Canton-specific. Lightweight heuristic. overlap of tags + adjacent categories.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="project" type="string" required>Project name or slug to look around.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_collaboration_opportunities","arguments":{}}}'
+```
+
+---
+
+### `find_expert`
+
+Rank likely Canton experts on a topic across CCPEDIA: forum activity matching the topic, plus overall forum/GitHub volume of that author. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Topic / domain to find experts for.</ParamField>
+<ParamField path="limit" type="integer">Max authors (default 5).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_expert","arguments":{}}}'
+```
+
+---
+
+### `find_known_issues`
+
+Surface known unresolved problems related to a free-text description. Pulls from forum threads with zero replies but high views, plus open GitHub issues. Canton-specific. Use for "is anyone else hitting this?" before posting a new question.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="description" type="string" required>What you're seeing. short prose, not a stack trace (for that use diagnose_error).</ParamField>
+<ParamField path="limit" type="integer">Max rows per source (default 5).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_known_issues","arguments":{}}}'
+```
+
+---
+
+### `find_maintainer_guidance`
+
+Surface forum/mailing posts authored by top-volume Canton contributors (likely maintainers) on a topic. Canton-specific. Use when you want to weight expert voices over the general forum.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Topic keyword, e.g. "topology", "wallet", "DAR upload".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_maintainer_guidance","arguments":{}}}'
+```
+
+---
+
+### `find_security_patches`
+
+Surface release notes likely to contain security or CVE fixes. Canton-specific. Heuristic: matches release bodies containing security / CVE / vulnerability / patch keywords.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_security_patches","arguments":{}}}'
+```
+
+---
+
+### `find_similar_projects`
+
+Find Canton ecosystem projects most similar to a free-text description by matching across title + category + description + tags. Canton-specific. Useful before proposing a project to check overlap.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="description" type="string" required>Project description / idea.</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_similar_projects","arguments":{}}}'
+```
+
+---
+
+### `full_context`
+
+Single semantic query across CCPEDIA's entire corpus at once: docs, CIPs, forum, mailing, GitHub items, blog, videos, whitepapers, ecosystem projects. Canton-specific. Use for an exhaustive cross-source roundup on a topic; for narrow searches prefer the specialised tools.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Topic / question.</ParamField>
+<ParamField path="limit_per_source" type="integer">Max rows per source (default 3).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"full_context","arguments":{}}}'
+```
+
+---
+
+### `search`
+
+Keyword/full-text search over the Canton Network knowledge base (CIPs, Canton/Daml/Splice docs, forum, mailing lists, whitepapers, grant proposals, blog, YouTube, GitHub). Canton-specific. do NOT use for other blockchains, the web, or local files. Use this for exact-term/name lookups; use semantic_search instead for conceptual or 'how does X work' questions, and get_doc to read a full page once you have its id.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Search query</ParamField>
+<ParamField path="type" type="string"></ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search","arguments":{}}}'
+```
+
+---
+
+### `search_community`
+
+One-call semantic-style search across CCPEDIA's community sources at once: forum, mailing lists, blog, and GitHub discussions. Canton-specific. Use when you want to scan everything written by humans (not docs/code) for a topic.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Free-text query.</ParamField>
+<ParamField path="limit" type="integer">Max hits per source (default 5).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search_community","arguments":{}}}'
+```
+
+---
+
+### `search_github_issues`
+
+Full-text search across CCPEDIA's indexed GitHub issues (15+ Canton repos). Canton ecosystem only. Use to find prior reports / open bugs / requested features. For PRs use search_github (broader) or list_proposals.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Free-text query.</ParamField>
+<ParamField path="state" type="string">Issue state filter (default: all).</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search_github_issues","arguments":{}}}'
+```
+
+---
+
+### `search_mailing_list`
+
+Search across CCPEDIA's indexed Canton mailing-list archives (cip-discuss, cip-vote, grants-discuss, validator-announce, etc). Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Free-text query. appears in subject or body.</ParamField>
+<ParamField path="group" type="string">Optional group_slug filter, e.g. "cip-discuss".</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search_mailing_list","arguments":{}}}'
+```
+
+---
+
+### `search_release_notes`
+
+Search across release-notes bodies of all indexed Canton repos for a feature/keyword. Canton-specific. Use to find which release first mentioned X.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="feature" type="string" required>Feature keyword, e.g. "logical synchronizer", "topology", "wallet kernel".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search_release_notes","arguments":{}}}'
+```
+
+---
+
+### `search_talks`
+
+Search CCPEDIA's indexed Canton talks/videos (YouTube transcripts). Canton-specific. Returns matches across title + transcript with a short snippet around the hit.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Free-text query. appears in title or transcript.</ParamField>
+<ParamField path="limit" type="integer">Max rows (default 5).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search_talks","arguments":{}}}'
+```
+
+---
+
+### `semantic_search`
+
+Conceptual/meaning-based search over the Canton Network corpus (CIPs, docs, forum, mailing lists, proposals, blog, releases, ecosystem, foundation KB, YouTube transcripts) using vector+FTS hybrid retrieval with reranking. Canton-specific. not for other chains or the web. Prefer this over the 'search' tool for open-ended 'how/why/what is' questions or when keyword search returns nothing; then call get_doc with a returned id to read the full source page.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Free-form question or phrase.</ParamField>
+<ParamField path="source_types" type="array">Restrict to these source types. Omit for all.</ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"semantic_search","arguments":{}}}'
+```
+

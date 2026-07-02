@@ -1,0 +1,199 @@
+---
+title: "CIPs"
+description: "Canton Improvement Proposals. Lookup, status, votes, citations, dependency chains, governance comparisons."
+---
+
+Canton Improvement Proposals. Lookup, status, votes, citations, dependency chains, governance comparisons.
+
+10 tools in this group.
+
+### `compare_governance_outcomes`
+
+Aggregate governance throughput over a window: CIPs that changed status (approved / rejected / advanced), counts of cip-vote and cip-discuss mailing activity, and dev-fund proposals merged or closed. Canton-specific. Use to summarise "what governance has shipped this quarter?".
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="window_days" type="integer" required>Window in days, 7-365.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"compare_governance_outcomes","arguments":{}}}'
+```
+
+---
+
+### `detect_cip_dependency_chain`
+
+Walk the CIP `requires:` graph from a starting CIP or PR draft. Returns the full chain of prerequisites that must reach `Final` before the starting proposal becomes implementable, with each prerequisite's current status. Accepts both approved CIPs ("CIP-0112", "0112") and dev-fund PR drafts ("PR-203"). Canton governance only. Use when planning around a CIP that hasn't shipped yet.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="cip_id" type="string" required>Starting CIP or PR id, e.g. "0112", "CIP-0112", or "PR-203".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"detect_cip_dependency_chain","arguments":{}}}'
+```
+
+---
+
+### `get_cip`
+
+Fetch the full markdown body of a single Canton Improvement Proposal (CIP) by its ID (e.g. "CIP-0042", "0042", "PR-0117"). Use when you already know which CIP and need its complete text. title, status, author, and full content. For browsing or filtering multiple CIPs use list_cips; for status timeline use get_cip_history. Canton/Daml/Splice ecosystem only. not Cardano or other 'CIP' schemes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="string" required>CIP ID: "0001", "CIP-0042", or "PR-0117"</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip","arguments":{}}}'
+```
+
+---
+
+### `get_cip_attachments`
+
+List file/PDF attachments linked to a single Canton Improvement Proposal (CIP). supporting docs and signed-vote-record PDFs, with filenames and URLs. Use to find downloadable artifacts for a CIP. For the parsed who-voted-how breakdown use get_cip_votes; for the proposal text use get_cip. Canton ecosystem only. not Cardano or other 'CIP' schemes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="string" required>CIP ID: "0001", "CIP-0042"</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_attachments","arguments":{}}}'
+```
+
+---
+
+### `get_cip_citations`
+
+Comprehensive citation graph for a Canton Improvement Proposal (CIP). every place across CCPEDIA's corpus that references CIP-N. Returns per-source counts AND samples for: sibling CIPs (declared `requires:` or content-mentions), individual forum posts (not just topic count), individual mailing-list messages (cip-vote / cip-discuss / grants-discuss / validator-announce), GitHub items (issues + PRs + dev-fund proposals across all indexed Canton repos), blog posts (third-party coverage), and YouTube videos (transcript matches). CCPEDIA-unique: joins through our parsed `mailing_messages.cip_id` column give per-message granularity no other source has. Use when an agent needs 'who is referencing CIP-X and where' / impact analysis. For the proposal's own text use get_cip, for its votes use get_cip_votes, for the legacy aggregated counts use get_cip_mentions. Canton/Daml/Splice ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="cip_id" type="string" required>CIP id, e.g. "CIP-0056", "0056", "PR-0117". Padded or unpadded both accepted.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_citations","arguments":{}}}'
+```
+
+---
+
+### `get_cip_history`
+
+Get the status-transition timeline of a single Canton Improvement Proposal (CIP). each dated from-&gt;to change (e.g. Draft-&gt;Review-&gt;Final). Use for 'how/when did CIP-X move through governance' questions. Returns history only, not the proposal body (get_cip) or vote tallies (get_cip_votes). Canton ecosystem only. not Cardano or other 'CIP' schemes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="string" required>CIP ID: "0001", "CIP-0042", or "PR-0117"</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_history","arguments":{}}}'
+```
+
+---
+
+### `get_cip_implementation_status`
+
+For one CIP, report whether code/grants are tracking the proposal: linked dev-fund PRs, related ecosystem projects, status transitions. Canton governance. Use after find_cip_for_feature to gauge readiness.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="cip_number" type="string" required>CIP id, e.g. "0112", "CIP-0112".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_implementation_status","arguments":{}}}'
+```
+
+---
+
+### `get_cip_mentions`
+
+Find every place that references a given Canton Improvement Proposal (CIP). forum threads, mailing-list posts, blog articles, Dev Fund grant proposals, and sibling CIPs that require/cite it. A reverse-reference (backlink) lookup: use for 'who is discussing CIP-X and where' / impact questions. Not for the proposal's own text (get_cip) or its vote records (get_cip_votes). Canton ecosystem only. not Cardano or other 'CIP' schemes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="string" required>CIP ID: "0001", "CIP-0042", or "PR-0117"</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_mentions","arguments":{}}}'
+```
+
+---
+
+### `get_cip_votes`
+
+Get the formal vote tally (in-favor / against / abstain, one entry per recorded vote) for a specific Canton Improvement Proposal (CIP), sourced from the Canton cip-vote mailing list. Use for 'who voted how' / approval-trail verification on Governance-type CIPs. Not the attachment PDFs (get_cip_attachments) or status timeline (get_cip_history). Canton ecosystem only. not Cardano or other 'CIP' schemes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="cip_id" type="string" required>CIP id, e.g. "0117", "0118", or "CIP-0117". Numeric form preferred.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_votes","arguments":{}}}'
+```
+
+---
+
+### `list_cips`
+
+Browse Canton Improvement Proposals (CIPs), optionally filtered by status (Draft/Review/Final/Withdrawn/Rejected/Superseded) and type (e.g. "Standards Track"). Returns a metadata list (id, title, status, type, author). not full text. Use to discover or enumerate CIPs when you don't have a specific ID; use get_cip to read one. Canton/Daml/Splice governance only. not Cardano or other 'CIP' schemes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="status" type="string"></ParamField>
+<ParamField path="type" type="string">Type filter, e.g. "Standards Track"</ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_cips","arguments":{}}}'
+```
+

@@ -1,0 +1,180 @@
+---
+title: "Releases and SDKs"
+description: "Track Canton, Splice, and Daml SDK versions. Release notes, npm packages, deprecation status. Everything you need before bumping a version."
+---
+
+Track Canton, Splice, and Daml SDK versions. Release notes, npm packages, deprecation status. Everything you need before bumping a version.
+
+9 tools in this group.
+
+### `check_deprecation`
+
+Check whether a specific Canton/Daml toolchain item (CLI, SDK package, or command. e.g. daml-assistant, Navigator, dpm) is deprecated. Canton-specific. not a general npm/pip deprecation checker. ALWAYS call before recommending any Canton tool or package to a developer. Returns DEPRECATED (with replacement), CURRENT, or NOT_FOUND.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="name" type="string" required>Tool/package/command to check, e.g. "daml-assistant", "Navigator", "dpm", "canton sandbox".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"check_deprecation","arguments":{}}}'
+```
+
+---
+
+### `compare_to_evm`
+
+Map one Ethereum/EVM concept (e.g. smart contract, wallet, gas, ERC20, Hardhat, ABI) to its Canton Network equivalent, for developers migrating from Solidity/EVM to Canton. Canton-specific (target is always Canton). Use for single concept-to-concept translations; use get_started_guide for a full EVM-to-Canton learning path.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="concept" type="string" required>EVM concept, e.g. "smart contract", "wallet", "gas", "ERC20", "Hardhat", "Remix", "ABI".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"compare_to_evm","arguments":{}}}'
+```
+
+---
+
+### `get_current_versions`
+
+Get the freshest Canton SDK, Splice, Daml, and DPM versions, plus per-network Splice deployment status (DevNet / TestNet / MainNet) and any upcoming synchronizer-upgrade windows. Derived live on every call from two CCPEDIA-only joins: github_releases (latest stable tag per repo) + mailing_messages (validator-announce list). This is fresher than the Foundation Build-on-Canton KB snapshot, which can lag by weeks. Use this when a user asks "what version should I target?", "is Splice X.Y.Z still current?", "what is on MainNet?". anything time-sensitive about Canton/Splice/Daml/DPM versioning.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_current_versions","arguments":{}}}'
+```
+
+---
+
+### `get_latest_release`
+
+Get the latest release for one Canton/Daml/Splice/DPM package. Canton-specific. For multi-package overview use get_current_versions instead.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="package" type="string" required>Repo or package name: "canton", "daml", "dpm", "splice", or a full owner/repo.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_latest_release","arguments":{}}}'
+```
+
+---
+
+### `get_npm_packages`
+
+List the indexed Canton/Daml npm packages (sdk_versions registry=npm) optionally filtered by name. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string">Optional substring filter on package name.</ParamField>
+<ParamField path="limit" type="integer">Max packages (default 25).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_npm_packages","arguments":{}}}'
+```
+
+---
+
+### `get_sdk_changelog`
+
+Fetch the release-notes body for one SDK version across canton / daml / dpm / decentralized-canton-sync (Splice). Canton-specific. Returns the rendered release body with a link to the GitHub release.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="version" type="string" required>Version tag, e.g. "3.5.6", "v3.5.6", "0.6.10".</ParamField>
+<ParamField path="repo" type="string">Optional repo hint: canton, daml, dpm, splice.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_sdk_changelog","arguments":{}}}'
+```
+
+---
+
+### `list_deprecations`
+
+List all known deprecated Daml/Canton CLI commands, packages, and tools with their modern replacements. Returns a compact table you can scan, optionally filtered by category (cli, package, tool, api, workflow). Canton/Daml/Splice only. Use this to enumerate or browse; use migrate_lookup for a specific name.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="category" type="string"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_deprecations","arguments":{}}}'
+```
+
+---
+
+### `migrate_lookup`
+
+Look up the modern replacement for a deprecated Daml/Canton CLI command, npm package, or tool (e.g. "daml start", "@daml/ledger", "Navigator", "Daml Triggers", "splice-wallet-payments subscription"). Returns the replacement, since-version, install instructions when applicable, and a migration note. Canton/Daml/Splice ecosystem only. Use when a user mentions a specific deprecated symbol; use list_deprecations to enumerate all known pairs or browse by category.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>The deprecated command, package, or tool name to look up. Best-match search.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"migrate_lookup","arguments":{}}}'
+```
+
+---
+
+### `outdated_guidance_detector`
+
+Surface CCPEDIA content that mentions deprecated Canton/Daml tooling alongside the user's query. likely outdated. Cross-references foundation_kb.DEPRECATED with doc_pages, forum_posts, and blog_posts. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Topic to scan.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"outdated_guidance_detector","arguments":{}}}'
+```
+

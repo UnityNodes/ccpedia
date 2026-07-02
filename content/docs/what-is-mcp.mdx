@@ -1,0 +1,30 @@
+---
+title: "What is MCP?"
+description: "Model Context Protocol in one page. How CCPEDIA uses it and what your client gets."
+---
+
+**Model Context Protocol (MCP)** is an open spec from Anthropic for connecting AI clients to data and tools. Think of it as HTTP for AI agents. One transport, many servers, every server speaks the same RPC shape.
+
+## How CCPEDIA fits in
+
+CCPEDIA is an MCP server. Your AI tool is the client. They talk JSON-RPC 2.0 over streamable HTTP. Once connected:
+
+1. Your client calls `tools/list` once at startup. It sees 78 tools.
+2. When you ask a Canton question, the client decides which tool to call based on the tool's `description` field.
+3. The tool returns Canton-specific data. The client weaves it into its answer.
+
+You do not write code. You do not memorise tool names. Just ask in natural language. The routing is transparent.
+
+## Transport
+
+CCPEDIA speaks streamable HTTP, the official MCP transport since spec v2 in 2025. Older clients that expect stdio (some early Claude Desktop builds) use the `mcp-remote` bridge. Every [integration guide](/integrations/overview) shows the exact command.
+
+## Authentication
+
+There is none. The server is public. Rate-limited at 60 calls per 15 minutes per IP. Calls are logged for adoption metrics, but no personal data is stored.
+
+## References
+
+- [Official MCP specification](https://modelcontextprotocol.io/specification)
+- [MCP introduction](https://modelcontextprotocol.io/)
+- CCPEDIA's MCP source: [`mcp-server.ts`](https://github.com/UnityNodes/ccpedia/blob/main/mcp-server.ts)

@@ -1,0 +1,34 @@
+---
+title: "Ledger fundamentals"
+description: "2 Canton design patterns for ledger fundamentals."
+---
+
+
+## Allocate a party safely
+
+<Callout>**Problem.** On a fresh Canton install the JSON Ledger API rejects submissions because no party has been allocated.</Callout>
+
+**Solution.** Call `/v1/parties/allocate` with a `partyIdHint` you control. Re-using the hint is idempotent; the participant returns the existing identifier.
+
+```bash
+curl -X POST $LEDGER/v1/parties/allocate \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"identifierHint": "alice", "displayName": "Alice"}'
+```
+
+**References:**
+- [Canton docs: Party allocation](https://docs.canton.network/sdks-tools/api-reference/)
+
+---
+
+## Pick between JSON Ledger API and gRPC Ledger API
+
+<Callout>**Problem.** Developers default to gRPC out of habit even when a browser-facing dApp would prefer JSON.</Callout>
+
+**Solution.** For browser/Node clients use JSON Ledger API v2 (simpler auth, streaming via SSE). For backend/services with tight latency use the gRPC API. Both expose the same domain model.
+
+
+
+**References:**
+- [API reference](https://docs.canton.network/sdks-tools/api-reference/)
+

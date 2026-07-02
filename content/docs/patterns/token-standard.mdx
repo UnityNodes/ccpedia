@@ -1,0 +1,18 @@
+---
+title: "Token Standard"
+description: "1 Canton design pattern for token standard."
+---
+
+
+## Implement a CIP-0056 token transfer
+
+<Callout>**Problem.** Custom transfer choices duplicate logic that the standard already covers.</Callout>
+
+**Solution.** Use the Canton Token Standard (CIP-0056) reference flows: `Transfer`, `TransferIntent`, `TransferReceipt`. Build new tokens by extending the standard, not replacing it.
+
+
+
+**References:**
+- [CIP-0056](https://lists.sync.global/g/cip-discuss)
+- [OpenZeppelin Canton Token Template](https://github.com/OpenZeppelin/canton-token-template)
+

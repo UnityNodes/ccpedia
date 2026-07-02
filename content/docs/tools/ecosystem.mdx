@@ -1,0 +1,125 @@
+---
+title: "Ecosystem"
+description: "Canton ecosystem projects. Similarity search, collaboration matching, dependency graph, gap detection."
+---
+
+Canton ecosystem projects. Similarity search, collaboration matching, dependency graph, gap detection.
+
+6 tools in this group.
+
+### `ecosystem_dependency_graph`
+
+Map ecosystem_projects matching a topic to the SDK versions and repos they appear alongside, building a quick dependency picture. Canton-specific. Useful for "if I build with X SDK version, who else is on it?".
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Topic / category / project family.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"ecosystem_dependency_graph","arguments":{}}}'
+```
+
+---
+
+### `get_ecosystem_gaps`
+
+Surface ecosystem gaps: high-view forum threads with zero replies (unanswered demand), recent unanswered mailing threads, and Dev Fund categories with few accepted proposals. Canton-specific. Use to find "where the ecosystem needs help".
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="limit" type="integer">Max rows per gap type (default 5).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_ecosystem_gaps","arguments":{}}}'
+```
+
+---
+
+### `get_github_discussion`
+
+Get the full body and comments of a single GitHub Discussion from a Canton Network repo (e.g. canton-foundation/docs), by its GitHub GraphQL node id (from list_github_discussions). CANTON-ONLY, read from CCPEDIA's cache. not the live GitHub API. This is GitHub Discussions, distinct from the Canton web forum (get_discussion) and mailing lists (get_mailing_thread).
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="string" required>GitHub GraphQL node ID, e.g. "D_kwDOMNgu5s4AY.."</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_github_discussion","arguments":{}}}'
+```
+
+---
+
+### `list_ecosystem_projects`
+
+List Canton Network ecosystem projects (DeFi protocols, wallets, custody, infrastructure, NaaS, etc.) from the curated canton.wiki catalog. Filter by category or free-text query. Returns name, category, description and URL. a static directory of who-builds-on-Canton, not live on-chain/TVL data (use get_token_market for live DeFi TVL). Canton-only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="category" type="string">Filter by category (e.g. "DeFi", "Wallets", "NaaS")</ParamField>
+<ParamField path="query" type="string">Search in title/description/tags</ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_ecosystem_projects","arguments":{}}}'
+```
+
+---
+
+### `list_github_discussions`
+
+List GitHub Discussions from Canton Network repositories (currently canton-foundation/docs) cached by CCPEDIA, sorted by upvotes then recency; filter by repo or category. CANTON-ONLY and read from CCPEDIA's cache, NOT the live GitHub API or the user's own repos (use a GitHub MCP for those). This is GitHub Discussions. distinct from the Canton web forum (get_discussion) and the sync.global mailing lists (list_mailing_threads). Use get_github_discussion for full body + comments.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="repo" type="string">Filter by repo, e.g. "canton-foundation/docs"</ParamField>
+<ParamField path="category" type="string">Filter by Discussions category, e.g. "Q&A", "Ideas"</ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_github_discussions","arguments":{}}}'
+```
+
+---
+
+### `list_repos`
+
+List the Canton Network GitHub repositories that CCPEDIA has indexed (Canton org repos. e.g. canton-foundation, Daml/Splice. excluding the dev-fund proposals repo), with the count of issues+PRs indexed per repo. CANTON-ONLY and read from CCPEDIA's cache. this is NOT a live GitHub API and does NOT list the user's own repos (use a GitHub MCP for that).
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_repos","arguments":{}}}'
+```
+

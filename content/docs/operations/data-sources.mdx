@@ -1,0 +1,32 @@
+---
+title: "Data sources"
+description: "Every Canton surface CCPEDIA syncs, on what cadence, with what freshness contract."
+---
+
+CCPEDIA continuously syncs 25 sources. The list of record is the live output of [`/status/data`](https://ccpedia.xyz/status/data).
+
+| Source | Cadence | Backing table |
+| --- | --- | --- |
+| Forum (Discourse) | 5 min | `forum_topics`, `forum_posts`, `forum_fts` |
+| GitHub items (issues + PRs across roughly 20 repos) | 15 min | `github_items` |
+| GitHub releases | 15 min | `github_releases` |
+| GitHub discussions | 15 min | `github_discussions` |
+| Mailing lists (cip-discuss, cip-vote, cip-announce, validator-announce, globalSyncForum, grants-discuss) | 5 min | `mailing_messages`, `mailing_topics` |
+| Canton docs corpus (docs.canton.network + docs.digitalasset.com) | daily | `doc_pages`, `doc_pages_fts` |
+| CIPs (canton-improvement-proposals) | 15 min | `cips`, `cip_status_history` |
+| Foundation knowledge base (canton-network-devs/Build-on-Canton-MCP) | daily | `foundation_kb`, `kb_drift_log` |
+| SDK versions registry (npm, GitHub releases) | 30 min | `sdk_versions` |
+| Canton YouTube channel | 12 hours | `youtube_videos` |
+| Canton blog | 30 min | `blog_posts` |
+| Whitepapers | daily | `whitepapers` |
+| Ecosystem projects (curated) | manual | `ecosystem_projects` |
+| Radar (technology adoption) | manual | `radar_items` |
+| Dev fund proposals (canton-foundation/canton-dev-fund) | 15 min | `github_items` (repo=`canton-dev-fund`) |
+| Featured Apps (Canton Scan API) | 15 min | `featured_apps` |
+| SV operations calendar (sv-cal.canton.foundation) | daily | `sv_operations_calendar` |
+| Network state (`api.cantonnodes.com`) | 5 min | runtime fetch, no table |
+| Token market | 5 min | runtime fetch |
+
+## Adding a new source
+
+The pipeline is uniform. Drop a `scripts/sync-<source>.ts` file, add a row to `lib/sync-config.ts`, add a CREATE TABLE in `lib/db.ts`, and write a `sync_log` row on every run. See `scripts/sync-featured-apps.ts` for the canonical template.

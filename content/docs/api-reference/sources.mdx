@@ -1,0 +1,17 @@
+---
+title: "Sources"
+description: "Per-source freshness, record counts, change history."
+---
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /api/v1/sources` | All 25 sources: last_run, age_seconds, record count, freshness threshold |
+| `GET /api/v1/changes?since=` | What changed across all sources since a timestamp |
+
+Full schema: [`/api/v1/openapi.json`](https://ccpedia.xyz/api/v1/openapi.json).
+
+## Example
+
+```bash
+curl -s 'https://ccpedia.xyz/api/v1/sources' | jq '.[] | {name, age_seconds, status}'
+```

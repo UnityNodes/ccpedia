@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/black.css';
+@import 'fumadocs-ui/css/preset.css';
+
+/*
+ * CCPEDIA palettes. Overrides Fumadocs black.css so both themes
+ * match the main site (ccpedia.xyz).
+ * Light  : white background, Canton Purple accent (#875CFF).
+ * Dark   : Canton Black background, Highlighter accent (#F3FF97).
+ */
+:root {
+  --color-fd-background: #fffffc;
+  --color-fd-foreground: #030206;
+  --color-fd-muted: #f0eee8;
+  --color-fd-muted-foreground: #6e6760;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #030206;
+  --color-fd-card: #f7f6f0;
+  --color-fd-card-foreground: #030206;
+  --color-fd-border: rgba(3, 2, 6, 0.12);
+  --color-fd-primary: #875cff;
+  --color-fd-primary-foreground: #fffffc;
+  --color-fd-secondary: #f0eee8;
+  --color-fd-secondary-foreground: #030206;
+  --color-fd-accent: #f0eee8;
+  --color-fd-accent-foreground: #875cff;
+  --color-fd-ring: #875cff;
+  --ccpedia-accent: #875cff;
+}
+
+.dark {
+  --color-fd-background: #030206;
+  --color-fd-foreground: #fffffc;
+  --color-fd-muted: #0d0c10;
+  --color-fd-muted-foreground: #9692a0;
+  --color-fd-popover: #0d0c10;
+  --color-fd-popover-foreground: #fffffc;
+  --color-fd-card: #131118;
+  --color-fd-card-foreground: #c8c5d0;
+  --color-fd-border: #2a2830;
+  --color-fd-primary: #f3ff97;
+  --color-fd-primary-foreground: #030206;
+  --color-fd-secondary: #0d0c10;
+  --color-fd-secondary-foreground: #fffffc;
+  --color-fd-accent: #131118;
+  --color-fd-accent-foreground: #f3ff97;
+  --color-fd-ring: #f3ff97;
+  --ccpedia-accent: #f3ff97;
+}
+
+html {
+  scrollbar-gutter: stable;
+  font-family: var(--font-sans), 'IBM Plex Sans', system-ui, sans-serif;
+  background: var(--color-fd-background);
+  color: var(--color-fd-foreground);
+}
+
+body {
+  background: var(--color-fd-background);
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+/*
+ * Theme-aware logo swap. .brand-logo-light is visible in light mode
+ * (default). Dark mode reveals .brand-logo-dark and hides light.
+ */
+.brand-logo-dark { display: none !important; }
+.brand-logo-light { display: inline-block !important; }
+.dark .brand-logo-dark { display: inline-block !important; }
+.dark .brand-logo-light { display: none !important; }
+
+/* Terminal-tone typography on the top nav. */
+#nd-nav a,
+#nd-nav [role='menuitem'],
+#nd-nav button {
+  font-family: var(--font-mono), 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 11.5px;
+}
+
+#nd-nav a:hover {
+  color: var(--ccpedia-accent);
+}
+
+/* Sidebar active link */
+aside a[data-active='true'] {
+  color: var(--ccpedia-accent) !important;
+  background: color-mix(in srgb, var(--ccpedia-accent) 8%, transparent);
+}
+
+/* Prose accent colour */
+.prose a,
+main a {
+  color: var(--ccpedia-accent);
+  text-underline-offset: 3px;
+}
+.prose a:hover,
+main a:hover {
+  opacity: 0.85;
+}

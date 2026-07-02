@@ -1,0 +1,22 @@
+---
+title: "Integrations"
+description: "Connect CCPEDIA to any MCP-compatible AI client."
+---
+
+CCPEDIA's MCP endpoint is at **`https://ccpedia.xyz/mcp`**. No auth. Pick your client below for the exact config snippet.
+
+<Cards>
+  <Card title="Claude Desktop" href="/integrations/claude-desktop">macOS and Windows desktop app.</Card>
+  <Card title="Cursor" href="/integrations/cursor">AI-first IDE.</Card>
+  <Card title="Windsurf" href="/integrations/windsurf">Codeium's AI IDE.</Card>
+  <Card title="Claude Code" href="/integrations/claude-code">Anthropic CLI.</Card>
+  <Card title="Zed" href="/integrations/zed">High-performance editor.</Card>
+  <Card title="Any MCP client" href="/integrations/generic">Streamable HTTP.</Card>
+</Cards>
+
+## Notes that apply to every client
+
+- Rate limit: 60 calls per 15 minutes per IP.
+- Transport: streamable HTTP, JSON-RPC 2.0. Content-type `application/json`. Accept `application/json, text/event-stream`.
+- Older clients that expect stdio use the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) bridge. Each guide shows the command.
+- Prefer a guided UI? The wizard at [ccpedia.xyz/for-ai](https://ccpedia.xyz/for-ai) auto-detects your client and pings the server live.

@@ -1,0 +1,30 @@
+---
+title: "Dev Fund"
+description: "2 Canton design patterns for dev fund."
+---
+
+
+## Confirm nobody is already building it
+
+<Callout>**Problem.** Dev Fund inbox routinely receives near-duplicate proposals (LocalNet tooling, validator runbooks, wallet abstractions).</Callout>
+
+**Solution.** Run `detect_builder_overlap(idea)` before drafting. Returns scored matches across 410+ proposals AND 458 ecosystem projects.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Dev-Fund)
+
+---
+
+## Self-grade a Dev Fund proposal draft
+
+<Callout>**Problem.** Approval depends on milestone clarity, named deliverables, and scope realism. Easy to miss in a first draft.</Callout>
+
+**Solution.** `proposal_success_predictor(draft_text)` walks a ten-point checklist (milestones, deliverables, sources, length, Apache 2.0…) and scores the draft. Aim for ≥80%.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Dev-Fund)
+

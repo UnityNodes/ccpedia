@@ -1,0 +1,33 @@
+---
+title: "Debugging"
+description: "2 Canton design patterns for debugging."
+---
+
+
+## Resolve a gRPC error code
+
+<Callout>**Problem.** You hit a Canton gRPC error like `UNAVAILABLE` or `TOPOLOGY_TOO_MANY_PENDING_TOPOLOGY_TRANSACTIONS` with no obvious cause.</Callout>
+
+**Solution.** Paste the full status into `diagnose_error`. The tool extracts distinctive tokens, including underscore-split parts, and searches forum_fts and github_items for prior resolutions.
+
+```bash
+// MCP call
+diagnose_error({ error_text: "TOPOLOGY_TOO_MANY_PENDING_TOPOLOGY_TRANSACTIONS at submitPartyOnboardingTransaction" })
+```
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Code-&-Errors)
+
+---
+
+## Diagnose a Canton bug right after a Splice cut
+
+<Callout>**Problem.** New Canton errors right after a Splice tag often turn out to be Splice-side, not Canton-side.</Callout>
+
+**Solution.** Pull `get_recent_deployments()` to see the freshest releases, then `get_breaking_changes(from, to)` against the relevant pair. Forum activity in the +14d window is usually the smoking gun.
+
+
+
+**References:**
+- [CCPEDIA tools](/docs/tools#Code-&-Errors)
+

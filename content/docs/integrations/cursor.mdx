@@ -1,0 +1,37 @@
+---
+title: "Cursor"
+description: "Add CCPEDIA to Cursor's MCP settings. Native streamable HTTP, no bridge needed."
+---
+
+<Steps>
+  ### Open MCP settings
+
+    Cursor, then Settings, then MCP, then **Add new MCP server**.
+  
+  ### Configure the server
+
+    Paste:
+    ```json
+    {
+      "mcpServers": {
+        "ccpedia": {
+          "url": "https://ccpedia.xyz/mcp"
+        }
+      }
+    }
+    ```
+  
+  ### Use in Composer
+
+    CCPEDIA tools appear under the **@** menu in Composer chat. Pick one, or just ask in natural language.
+  
+</Steps>
+
+<Callout type="info">Cursor talks streamable HTTP natively. No `mcp-remote` needed.</Callout>
+
+## Tips
+
+- Pin frequently-used tools via Cursor's @-mention favourites.
+- Tool descriptions show inline in the picker. Cursor's autocomplete usually selects the right one.
+
+[Cursor's MCP docs ↗](https://docs.cursor.com/context/model-context-protocol)

@@ -1,0 +1,52 @@
+---
+title: "MCP tool reference"
+description: "Every CCPEDIA MCP tool. Auto-generated from the live registry."
+---
+
+CCPEDIA exposes **78 MCP tools** to AI clients at `https://ccpedia.xyz/mcp`. They cover every Canton developer surface.
+
+This page is auto-generated. It never drifts from what `/mcp tools/list` actually returns.
+
+<Cards>
+  <Card title="Search" href="/tools/search">
+    Full-text and semantic search across every synced Canton source. Covers the forum, GitHub, docs, CIPs, mailing lists, videos, blog, whitepapers, and the ecosystem registry. (17 tools).
+  </Card>
+  <Card title="CIPs" href="/tools/cips">
+    Canton Improvement Proposals. Lookup, status, votes, citations, dependency chains, governance comparisons. (10 tools).
+  </Card>
+  <Card title="Forum and community" href="/tools/forum-community">
+    Live Canton developer forum. Discussions, trending topics, expert discovery, consensus detection. (4 tools).
+  </Card>
+  <Card title="Code and errors" href="/tools/code-errors">
+    Diagnose errors, find code samples, surface breaking changes and known issues across the Canton stack. (4 tools).
+  </Card>
+  <Card title="Releases and SDKs" href="/tools/releases-sdks">
+    Track Canton, Splice, and Daml SDK versions. Release notes, npm packages, deprecation status. Everything you need before bumping a version. (9 tools).
+  </Card>
+  <Card title="Featured apps and SV" href="/tools/featured-apps-sv">
+    Live Featured Apps from the Scan API and the Super Validator operations calendar. Schedules, freezes, upgrades, releases. (8 tools).
+  </Card>
+  <Card title="Dev Fund" href="/tools/dev-fund">
+    Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction. (5 tools).
+  </Card>
+  <Card title="Onboarding and drift" href="/tools/onboarding-drift">
+    Get started fast, follow a learning path, see where curated KBs drift from live Canton state. (7 tools).
+  </Card>
+  <Card title="Talks, docs, and mail" href="/tools/talks-docs-mail">
+    Canton YouTube talks, official documentation, whitepapers, the foundation knowledge-base, and four Canton mailing lists. (8 tools).
+  </Card>
+  <Card title="Ecosystem" href="/tools/ecosystem">
+    Canton ecosystem projects. Similarity search, collaboration matching, dependency graph, gap detection. (6 tools).
+  </Card>
+</Cards>
+
+## Calling a tool
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+Client-specific config snippets live in [Integrations](/integrations/overview).

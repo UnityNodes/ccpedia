@@ -1,0 +1,49 @@
+---
+title: "Any MCP client"
+description: "Streamable HTTP, JSON-RPC 2.0, no auth. Works with anything that speaks MCP."
+---
+
+## Endpoint
+
+```
+POST https://ccpedia.xyz/mcp
+content-type: application/json
+accept: application/json, text/event-stream
+```
+
+## Minimal handshake
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+## Calling a tool
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{
+    "jsonrpc":"2.0",
+    "id":2,
+    "method":"tools/call",
+    "params": { "name":"diagnose_error", "arguments": { "error_text":"TOPOLOGY_TOO_MANY_PENDING_TOPOLOGY_TRANSACTIONS" } }
+  }'
+```
+
+## What CCPEDIA supports
+
+| MCP method | Supported |
+| --- | --- |
+| `tools/list` | yes |
+| `tools/call` | yes |
+| `resources/list` | no (all data is tool-fronted) |
+| `prompts/list` | no |
+| `ping` | yes |
+
+## Rate limit
+
+60 calls per 15-minute window per IP. Exceeding it returns `429` with a `Retry-After` header. If you need more, self-host. Source is Apache 2.0 at [github.com/UnityNodes/ccpedia](https://github.com/UnityNodes/ccpedia).

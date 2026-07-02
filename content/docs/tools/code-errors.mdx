@@ -1,0 +1,88 @@
+---
+title: "Code and errors"
+description: "Diagnose errors, find code samples, surface breaking changes and known issues across the Canton stack."
+---
+
+Diagnose errors, find code samples, surface breaking changes and known issues across the Canton stack.
+
+4 tools in this group.
+
+### `diagnose_error`
+
+Paste a Canton/Daml/Splice error message or stack trace fragment and get the most likely resolved fixes from CCPEDIA's historical corpus: forum threads where the same error was discussed, related GitHub issues, and the SDK version range the error appeared in. Canton-specific - do NOT use for non-Canton errors. Best when the input contains a distinctive error code (e.g. TOPOLOGY_TOO_MANY_PENDING_TOPOLOGY_TRANSACTIONS, UNAVAILABLE, ValidatorLicense) or a verbatim exception class. Returns top 3 matches each from forum_posts and github_items.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="error_text" type="string" required>Error message, stack trace, or status code. Longer/more distinctive text returns better matches.</ParamField>
+<ParamField path="limit" type="integer">Max matches per source (default 3).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"diagnose_error","arguments":{}}}'
+```
+
+---
+
+### `get_breaking_changes`
+
+Compare two Canton/Daml/Splice SDK versions and return the list of changes between them. release notes from github_releases plus any forum/GitHub reports near the release window. Canton-specific. Use when a developer is planning an upgrade and asks "what breaks moving from X to Y?". Pass version strings as they appear in github_releases tags (with or without the leading "v").
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="from_sdk" type="string" required>Origin version, e.g. "0.5.0" or "v3.4.0".</ParamField>
+<ParamField path="to_sdk" type="string" required>Target version, e.g. "0.6.10" or "v3.5.6".</ParamField>
+<ParamField path="repo" type="string">Optional repo hint: "canton", "splice" (alias for decentralized-canton-sync), "daml", or a full owner/name. Auto-inferred from version shape when omitted.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_breaking_changes","arguments":{}}}'
+```
+
+---
+
+### `get_issue_status`
+
+Look up one GitHub issue or PR by repo + number. Canton/Daml/Splice repos only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="repo" type="string" required>Repo, e.g. "canton-foundation/canton-dev-fund" or shorthand "canton-dev-fund".</ParamField>
+<ParamField path="number" type="integer" required>Issue or PR number.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_issue_status","arguments":{}}}'
+```
+
+---
+
+### `get_recurring_issue_fingerprint`
+
+Identify error patterns that recur across multiple Canton SDK or Splice release windows. structural bugs the ecosystem keeps hitting versus one-off regressions. Returns the top keywords/error codes mentioned in forum_posts that span at least 3 distinct months over the last 18 months. Canton/Daml/Splice ecosystem only. Useful for triage prioritisation and for choosing what to add to a runbook.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="window_months" type="integer">Look-back window in months (default 18).</ParamField>
+<ParamField path="min_months" type="integer">A keyword must appear in this many distinct months to count as recurring (default 3).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_recurring_issue_fingerprint","arguments":{}}}'
+```
+

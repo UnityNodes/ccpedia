@@ -1,0 +1,84 @@
+---
+title: "Forum and community"
+description: "Live Canton developer forum. Discussions, trending topics, expert discovery, consensus detection."
+---
+
+Live Canton developer forum. Discussions, trending topics, expert discovery, consensus detection.
+
+4 tools in this group.
+
+### `community_consensus`
+
+Surface signals of what the Canton community thinks about a topic: forum thread reply ratios, mailing list debate volume, and the highest-rated reply on the most-viewed thread. Canton-specific. Not sentiment-analysis; a structured roundup the caller can summarise.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="topic" type="string" required>Topic to assess.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"community_consensus","arguments":{}}}'
+```
+
+---
+
+### `get_discussion`
+
+Get a single thread from the official Canton Network community forum (Discourse at forum-style discussions on ccpedia.xyz) by numeric topic id: title, category, view/post counts, and the first ~15 posts. Canton-only, served from CCPEDIA's cached forum index. This is the WEB FORUM. for GitHub Discussions use get_github_discussion, for sync.global mailing-list threads use get_mailing_thread. Get the id from search results or trending.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="id" type="integer" required>Forum topic ID</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_discussion","arguments":{}}}'
+```
+
+---
+
+### `get_recent_changes`
+
+Get a chronological (newest-first) feed of recent Canton Network activity: CIP status changes, new grant proposals, new forum threads, blog posts, GitHub releases, and radar items, merged into one time-ordered stream (default last 7 days). Canton-specific. not a git/repo changelog. Use for 'what changed/happened on Canton recently'; use get_trending instead for popularity-ranked 'what's hot'.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="days" type="integer"></ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_recent_changes","arguments":{}}}'
+```
+
+---
+
+### `get_trending`
+
+Get this week's most popular/trending Canton Network content (CIPs, forum threads, docs, blog, etc.) ranked by an engagement score. Canton-specific. not general crypto/social/news trends. Use for 'what's hot/popular on Canton right now'; use get_recent_changes instead for a chronological 'what changed recently' feed.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_trending","arguments":{}}}'
+```
+

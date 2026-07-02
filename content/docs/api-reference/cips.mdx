@@ -1,0 +1,28 @@
+---
+title: "CIPs"
+description: "CIP lookup, batch, citations, and cross-surface mentions."
+---
+
+| Endpoint | Returns |
+| --- | --- |
+| `GET /api/v1/cips/:id/tldr` | One-line summary, status, key dates |
+| `POST /api/v1/cips/tldrs` | Batch lookup. Body: `{ ids: ["CIP-0056", ...] }` |
+| `GET /api/v1/cips/:id/mentions` | Forum, mailing, and GitHub mentions for a CIP |
+
+Full schema: [`/api/v1/openapi.json`](https://ccpedia.xyz/api/v1/openapi.json).
+
+## Example
+
+```bash
+curl -s 'https://ccpedia.xyz/api/v1/cips/CIP-0056/tldr' | jq .
+```
+
+```json
+{
+  "cip_id": "CIP-0056",
+  "title": "Canton Token Standard",
+  "status": "Final",
+  "tldr": "Standard interface for Daml-based tokens on Canton...",
+  "url": "https://lists.sync.global/g/cip-discuss/topic/123"
+}
+```

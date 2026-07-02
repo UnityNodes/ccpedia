@@ -1,0 +1,36 @@
+---
+title: "Claude Code (CLI)"
+description: "Add CCPEDIA tools to your shell sessions via Anthropic's terminal CLI."
+---
+
+The fastest path is the `claude mcp add` command. No manual JSON.
+
+<Steps>
+  ### Project scope (default)
+
+    From inside your project's working tree:
+    ```bash
+    claude mcp add ccpedia https://ccpedia.xyz/mcp
+    ```
+    This writes to project-root `.mcp.json`.
+  
+  ### User scope (shared across projects)
+
+    ```bash
+    claude mcp add ccpedia --user-scope https://ccpedia.xyz/mcp
+    ```
+  
+  ### Verify
+
+    ```bash
+    claude mcp list
+    ```
+    `ccpedia` should appear with `✓ connected`.
+  
+</Steps>
+
+## Usage
+
+Inside Claude Code, tools are namespaced as `mcp__ccpedia__<tool>`. You rarely need to type the name. Just ask in plain English.
+
+[Claude Code docs ↗](https://docs.anthropic.com/claude/docs/claude-code)

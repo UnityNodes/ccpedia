@@ -1,0 +1,30 @@
+---
+title: "Governance"
+description: "2 Canton design patterns for governance."
+---
+
+
+## Check whether you can build on a CIP today
+
+<Callout>**Problem.** CIPs sit in different states (Draft, In Review, Approved, Final) and may declare `Requires:` blockers that haven't shipped.</Callout>
+
+**Solution.** Call `detect_cip_dependency_chain(cip_id)`. It returns the full prerequisite chain with each prerequisite's current status. Final or Approved means done. Anything else still blocks.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#CIPs)
+
+---
+
+## Track all conversations about a CIP across surfaces
+
+<Callout>**Problem.** A live CIP debate happens in cip-discuss mailing + forum + GitHub at once; following one is partial.</Callout>
+
+**Solution.** `get_cip_citations(cip_number)` returns per-source backlinks at per-message granularity. That includes individual mailing messages, forum posts, GitHub items, blog posts, and videos.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#CIPs)
+

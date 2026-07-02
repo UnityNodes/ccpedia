@@ -1,0 +1,30 @@
+---
+title: "Tooling"
+description: "2 Canton design patterns for tooling."
+---
+
+
+## Verify a CLI tool isn't deprecated before suggesting it
+
+<Callout>**Problem.** AI agents keep recommending `daml-assistant` / `daml start` long after they were retired by DPM.</Callout>
+
+**Solution.** Always call CCPEDIA's `check_deprecation` MCP tool before printing an install command. It returns DEPRECATED / CURRENT / NOT_FOUND with the replacement.
+
+
+
+**References:**
+- [CCPEDIA MCP tool](/docs/tools#Releases-&-SDKs)
+
+---
+
+## Don't import @daml/ledger or @daml/react
+
+<Callout>**Problem.** Stale tutorials still point to retired npm packages.</Callout>
+
+**Solution.** Use the current DA tooling exposed via `dpm codegen-js` (TS bindings) and the @canton-network/dapp-sdk for CIP-0103 wallet transport. Run `list_deprecations` to scan for any other names you might still be using.
+
+
+
+**References:**
+- [list_deprecations](/docs/tools#Releases-&-SDKs)
+

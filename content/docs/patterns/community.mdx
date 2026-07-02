@@ -1,0 +1,43 @@
+---
+title: "Community"
+description: "3 Canton design patterns for community."
+---
+
+
+## Find someone who already solved this
+
+<Callout>**Problem.** The right Canton-side expert for "topology" or "wallet kernel" isn't obvious from forum username alone.</Callout>
+
+**Solution.** `find_expert(topic)` ranks authors by topic-relevant + total volume. Top forum posters skew toward DA engineering staff who maintain the affected component.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Forum-&-Community)
+
+---
+
+## Search Canton mailing lists, not just the forum
+
+<Callout>**Problem.** Foundation governance and many SV ops discussions never make it to the forum. They live on lists.canton.network.</Callout>
+
+**Solution.** `search_mailing_list(query, group?)` indexes cip-discuss, cip-vote, cip-announce, grants-discuss, validator-announce and globalSyncForum. Pass `group="cip-vote"` to drill into formal votes.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Talks-&-Docs-&-Mail)
+
+---
+
+## Find adjacent projects to partner with
+
+<Callout>**Problem.** Builders working on adjacent capabilities (e.g. a wallet + a DEX + a bridge) rarely discover each other.</Callout>
+
+**Solution.** `find_collaboration_opportunities(project)` returns ecosystem_projects with overlapping tags/category. Use it once at proposal-time and again at design-time.
+
+
+
+**References:**
+- [CCPEDIA tool](/docs/tools#Ecosystem)
+

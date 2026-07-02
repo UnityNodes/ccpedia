@@ -1,0 +1,103 @@
+---
+title: "Dev Fund"
+description: "Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction."
+---
+
+Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction.
+
+5 tools in this group.
+
+### `detect_builder_overlap`
+
+Given a project/proposal idea, find existing Canton ecosystem projects + dev-fund proposals that look similar. across BOTH the canton-dev-fund proposals corpus AND ecosystem_projects. Canton-specific. Cuts manual cross-reference research before submitting a new proposal.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="idea" type="string" required>One-paragraph project idea or capability description.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"detect_builder_overlap","arguments":{}}}'
+```
+
+---
+
+### `get_funding_landscape`
+
+Overview of the Canton Dev Fund: counts of proposals by state and label, top categories, and recent activity. Canton-specific. Use to gauge whether a category is over- or under-funded before proposing.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="category" type="string">Optional label filter, e.g. "daml-tooling", "node-deployment-operations".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_funding_landscape","arguments":{}}}'
+```
+
+---
+
+### `get_proposal_milestones`
+
+For one Canton Dev Fund proposal PR, list any related milestone tracking issues (issues whose body or title references the PR number). Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="pr_number" type="integer" required>PR number in canton-foundation/canton-dev-fund.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_proposal_milestones","arguments":{}}}'
+```
+
+---
+
+### `get_proposals`
+
+List Canton Network Dev Fund grant proposals. community funding requests tracked on GitHub. filterable by state (open/closed/all). Use for 'what grants/funding requests exist' questions. NOT the same as Canton Improvement Proposals (CIPs): those are governance specs (use list_cips / get_cip). Returns number, title, state, author, and board status. Canton ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="state" type="string"></ParamField>
+<ParamField path="limit" type="integer"></ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_proposals","arguments":{}}}'
+```
+
+---
+
+### `proposal_success_predictor`
+
+Heuristic readiness score for a Dev Fund proposal draft, based on attributes that correlate with approval in the historical corpus: explicit milestones, code/PoC references, sources, scope realism. Canton-specific. Not a vote; a checklist.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="draft_text" type="string" required>Full draft text.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"proposal_success_predictor","arguments":{}}}'
+```
+

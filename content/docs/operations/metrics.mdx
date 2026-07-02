@@ -1,0 +1,23 @@
+---
+title: "Metrics"
+description: "Public CCPEDIA adoption dashboard. DAU, MCP tool usage, integrations detected."
+---
+
+CCPEDIA's adoption metrics are public at **[ccpedia.xyz/metrics](https://ccpedia.xyz/metrics)**.
+
+## What we track
+
+| Metric | Source |
+| --- | --- |
+| Daily active users (humans and bots split) | `page_visits` table, agent-class classifier |
+| MCP tool calls by tool name | `mcp_calls` table, logged at the proxy layer |
+| API request rate | `api_requests` table |
+| Integration sources detected | `mcp_calls.source` (claude, cursor, windsurf, zed, slack-bot, and so on) |
+
+## Privacy
+
+IP addresses are hashed with a daily-rotating salt before storage. Session IDs are random 32-hex strings stored in a first-party cookie. No personal data is collected.
+
+## Why it's public
+
+CCPEDIA exists to be used. Public metrics let Canton teams see adoption is real. They let the Foundation track ecosystem health. They let funders verify M3 acceptance without ad-hoc data requests.
