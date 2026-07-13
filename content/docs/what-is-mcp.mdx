@@ -9,7 +9,7 @@ description: "Model Context Protocol in one page. How CCPEDIA uses it and what y
 
 CCPEDIA is an MCP server. Your AI tool is the client. They talk JSON-RPC 2.0 over streamable HTTP. Once connected:
 
-1. Your client calls `tools/list` once at startup. It sees 78 tools.
+1. Your client calls `tools/list` once at startup. It sees 80 tools.
 2. When you ask a Canton question, the client decides which tool to call based on the tool's `description` field.
 3. The tool returns Canton-specific data. The client weaves it into its answer.
 

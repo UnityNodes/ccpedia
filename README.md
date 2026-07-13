@@ -42,10 +42,10 @@ Interactive setup wizard: [ccpedia.xyz/for-ai](https://ccpedia.xyz/for-ai).
 
 ## What you get
 
-- **78 MCP tools** across 10 categories: search, CIPs, forum, mailing lists, docs, YouTube, ecosystem, validators, dev fund, releases. Full catalog: [docs.ccpedia.xyz/tools/overview](https://docs.ccpedia.xyz/tools/overview).
-- **25 live data sources** synced every 5 minutes to 24 hours depending on cadence. Live list: [ccpedia.xyz/api/v1/sources](https://ccpedia.xyz/api/v1/sources).
+- **80 MCP tools** across 10 categories: search, CIPs, forum, mailing lists, docs, YouTube, ecosystem, validators, dev fund, releases. Full catalog: [docs.ccpedia.xyz/tools/overview](https://docs.ccpedia.xyz/tools/overview).
+- **15 live data sources** synced every 5 minutes to 24 hours depending on cadence. Live list: [ccpedia.xyz/api/v1/sources](https://ccpedia.xyz/api/v1/sources).
 - **20 Canton design patterns** for the questions we see most (SV operations, DAML fundamentals, token standards, governance, debugging). Index: [docs.ccpedia.xyz/patterns/overview](https://docs.ccpedia.xyz/patterns/overview).
-- **REST API** with 39 endpoints and an OpenAPI 3.1 spec: [ccpedia.xyz/api/v1/reference](https://ccpedia.xyz/api/v1/reference).
+- **REST API** with 38 endpoints and an OpenAPI 3.1 spec: [ccpedia.xyz/api/v1/reference](https://ccpedia.xyz/api/v1/reference).
 
 Ask it "how do I build a token on Canton?" and it returns the actual CIP template code with citations, not a paraphrase.
 

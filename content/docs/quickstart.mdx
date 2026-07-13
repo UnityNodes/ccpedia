@@ -18,7 +18,7 @@ CCPEDIA serves its MCP at **`https://ccpedia.xyz/mcp`**. No auth. Rate limit is 
 
 ## Step 2. Verify the connection
 
-After adding CCPEDIA, your client should see **78 tools**. Sanity-check from the terminal:
+After adding CCPEDIA, your client should see **80 tools**. Sanity-check from the terminal:
 
 ```bash
 curl -s -X POST https://ccpedia.xyz/mcp \
@@ -27,7 +27,7 @@ curl -s -X POST https://ccpedia.xyz/mcp \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
 
-You should see roughly 78 `tools` entries in the response.
+You should see roughly 80 `tools` entries in the response.
 
 ## Step 3. Ask a useful question
 

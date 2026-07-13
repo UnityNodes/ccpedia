@@ -1,18 +1,18 @@
 ---
 title: "CCPEDIA"
-description: "Canton Network knowledge platform. 78 MCP tools, 25 live data sources, drift-aware, no auth."
+description: "Canton Network knowledge platform. 80 MCP tools, 15 live data sources, drift-aware, no auth."
 ---
 
 CCPEDIA is a knowledge layer for Canton developers. We sync every official Canton surface (forum, GitHub, docs, CIPs, mailing lists, videos, dev fund, ecosystem registry, validator calendar, app metrics) and expose all of it through one MCP endpoint.
 
-Your AI tool connects once and gets 78 tools that know about Canton.
+Your AI tool connects once and gets 80 tools that know about Canton.
 
 <Cards>
   <Card title="Quickstart" href="/quickstart">
     Connect Claude Desktop, Cursor, or any MCP client in under two minutes.
   </Card>
   <Card title="MCP tools" href="/tools/overview">
-    78 tools across 10 categories. Auto-generated from the live registry.
+    80 tools across 10 categories. Auto-generated from the live registry.
   </Card>
   <Card title="Integrations" href="/integrations/overview">
     Config snippets for Claude Desktop, Cursor, Windsurf, Claude Code, Zed.
@@ -31,7 +31,7 @@ CCPEDIA syncs all of it continuously and serves it through one MCP endpoint at [
 ## Live numbers
 
 <Cards>
-  <Card title="78 tools">via <code>tools/list</code></Card>
+  <Card title="80 tools">via <code>tools/list</code></Card>
   <Card title="25 sources">refreshed every 5 to 60 min</Card>
   <Card title="20 patterns">authored by the maintainer</Card>
 </Cards>
@@ -44,7 +44,7 @@ CCPEDIA exposes the same Canton data through several interfaces. Pick the one th
 
 | Layer | What it is | Best for |
 | --- | --- | --- |
-| MCP server at `/mcp` | 78 tools your AI calls directly | Claude, Cursor, Windsurf, Zed |
+| MCP server at `/mcp` | 80 tools your AI calls directly | Claude, Cursor, Windsurf, Zed |
 | REST API v1 at `/api/v1/*` | Same data as HTTP | Dashboards, custom apps |
 | Atom feeds at `/feed/*` | Per-source firehose | RSS readers, monitoring |
 | Web UI at `ccpedia.xyz` | Human search and browse | Developers, governance |

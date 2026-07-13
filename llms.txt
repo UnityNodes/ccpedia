@@ -19,7 +19,7 @@ Live at https://ccpedia.xyz. MCP endpoint: https://ccpedia.xyz/mcp. Docs: https:
 - [Zed](https://docs.ccpedia.xyz/integrations/zed): agent panel connection.
 - [Generic MCP client](https://docs.ccpedia.xyz/integrations/generic): raw URL + JSON snippet.
 
-## Tools (78 across 10 categories)
+## Tools (80 across 10 categories)
 
 - [Overview](https://docs.ccpedia.xyz/tools/overview): full catalog, grouped, with examples.
 - [Search](https://docs.ccpedia.xyz/tools/search): hybrid vector + FTS across the whole corpus.
@@ -59,7 +59,7 @@ Live at https://ccpedia.xyz. MCP endpoint: https://ccpedia.xyz/mcp. Docs: https:
 
 ## Operations
 
-- [Data sources](https://docs.ccpedia.xyz/operations/data-sources): the 25 live sources, their cadence, and what they cover.
+- [Data sources](https://docs.ccpedia.xyz/operations/data-sources): the 15 live sources, their cadence, and what they cover.
 - [Status](https://docs.ccpedia.xyz/operations/status): current sync health per bucket.
 - [Metrics](https://docs.ccpedia.xyz/operations/metrics): counts of tools, sources, chunks.
 
