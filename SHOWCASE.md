@@ -24,7 +24,7 @@ Real examples of what CCPEDIA does that a general-purpose model with web search 
 
 ## Case: onboarding drift detection
 
-**Tool used:** `detect_onboarding_drift`.
+**Tool used:** `detect_drift`.
 
 **What it does.** Compares the "get started" flow documented on docs.canton.network against the actual command sequence used in cn-quickstart and in the last week of forum help threads. Flags steps that have changed upstream but not yet been reflected in docs.
 
