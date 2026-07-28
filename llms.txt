@@ -19,7 +19,7 @@ Live at https://ccpedia.xyz. MCP endpoint: https://ccpedia.xyz/mcp. Docs: https:
 - [Zed](https://docs.ccpedia.xyz/integrations/zed): agent panel connection.
 - [Generic MCP client](https://docs.ccpedia.xyz/integrations/generic): raw URL + JSON snippet.
 
-## Tools (87 across 10 categories)
+## Tools (10 categories)
 
 - [Overview](https://docs.ccpedia.xyz/tools/overview): full catalog, grouped, with examples.
 - [Search](https://docs.ccpedia.xyz/tools/search): hybrid vector + FTS across the whole corpus.
@@ -33,7 +33,7 @@ Live at https://ccpedia.xyz. MCP endpoint: https://ccpedia.xyz/mcp. Docs: https:
 - [Code errors](https://docs.ccpedia.xyz/tools/code-errors): diagnostic tool for common Canton errors.
 - [Onboarding drift](https://docs.ccpedia.xyz/tools/onboarding-drift): detects stale docs against upstream truth.
 
-## Canton design patterns (20 recipes)
+## Canton design patterns
 
 - [Overview](https://docs.ccpedia.xyz/patterns/overview): index and use cases.
 - [Ledger fundamentals](https://docs.ccpedia.xyz/patterns/ledger-fundamentals)
@@ -59,7 +59,7 @@ Live at https://ccpedia.xyz. MCP endpoint: https://ccpedia.xyz/mcp. Docs: https:
 
 ## Operations
 
-- [Data sources](https://docs.ccpedia.xyz/operations/data-sources): the 15 live sources, their cadence, and what they cover.
+- [Data sources](https://docs.ccpedia.xyz/operations/data-sources): every live source, its cadence, and what it covers. Current counts: https://ccpedia.xyz/api/v1/sources
 - [Status](https://docs.ccpedia.xyz/operations/status): current sync health per bucket.
 - [Metrics](https://docs.ccpedia.xyz/operations/metrics): counts of tools, sources, chunks.
 
