@@ -14,6 +14,13 @@ interface PageProps {
   params: Promise<{ slug?: string[] }>;
 }
 
+// Docs pages are statically generated, but several of them render live
+// platform counts (<ToolCount /> and friends). Without a revalidate window
+// those figures would be frozen at whatever they were during the last build,
+// which is exactly the drift this was meant to remove. Nothing on the host
+// auto-deploys this site, so ISR is what actually keeps the numbers honest.
+export const revalidate = 3600;
+
 export default async function Page(props: PageProps) {
   const params = await props.params;
   const page = source.getPage(params.slug);

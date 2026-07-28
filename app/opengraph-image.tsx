@@ -1,11 +1,17 @@
 import { ImageResponse } from 'next/og';
+import { getCounts } from '@/lib/counts';
 
 export const runtime = 'edge';
-export const alt = 'CCPEDIA docs — 87 MCP tools for Canton Network';
+export const alt = 'CCPEDIA docs, the Canton Network knowledge platform';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 export default async function Image() {
+  // Counts come from the live API. This image is what anyone sharing a
+  // docs.ccpedia.xyz link actually sees, and it had the numbers baked in, so
+  // it kept advertising figures that were two revisions out of date.
+  const { tools, sources, patterns } = await getCounts();
+
   return new ImageResponse(
     (
       <div
@@ -80,8 +86,8 @@ export default async function Image() {
               display: 'flex',
             }}
           >
-            Canton Network knowledge platform. 87 MCP tools, 15 live data
-            sources, one endpoint at ccpedia.xyz/mcp.
+            Canton Network knowledge platform. {tools} MCP tools, {sources} live
+            data sources, one endpoint at ccpedia.xyz/mcp.
           </div>
         </div>
 
@@ -96,9 +102,9 @@ export default async function Image() {
           }}
         >
           <div style={{ display: 'flex', gap: 32 }}>
-            <span>87 MCP TOOLS</span>
-            <span>15 SOURCES</span>
-            <span>20 PATTERNS</span>
+            <span>{tools} MCP TOOLS</span>
+            <span>{sources} SOURCES</span>
+            <span>{patterns} PATTERNS</span>
           </div>
           <div style={{ color: '#f3ff97' }}>OPEN SOURCE · APACHE 2.0</div>
         </div>

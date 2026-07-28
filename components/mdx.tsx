@@ -6,6 +6,13 @@ import { Callout } from 'fumadocs-ui/components/callout';
 import { Card, Cards } from 'fumadocs-ui/components/card';
 import type { MDXComponents } from 'mdx/types';
 import { ParamField, ResponseField } from './param-field';
+import {
+  ToolCount,
+  SourceCount,
+  EndpointCount,
+  PatternCount,
+  RecordCount,
+} from './counts';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -21,6 +28,11 @@ export function getMDXComponents(components?: MDXComponents) {
     Cards,
     ParamField,
     ResponseField,
+    ToolCount,
+    SourceCount,
+    EndpointCount,
+    PatternCount,
+    RecordCount,
     ...components,
   } satisfies MDXComponents;
 }

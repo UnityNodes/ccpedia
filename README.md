@@ -6,7 +6,9 @@ Live at [ccpedia.xyz](https://ccpedia.xyz) · Docs at [docs.ccpedia.xyz](https:/
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-endpoint-8A2BE2)](https://ccpedia.xyz/mcp)
+[![MCP tools](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fccpedia.xyz%2Fapi%2Fv1%2Fsources&query=%24.mcp_tools_count&label=mcp%20tools&color=8A2BE2)](https://docs.ccpedia.xyz/tools/overview)
 [![Live sources](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fccpedia.xyz%2Fapi%2Fv1%2Fsources&query=%24.count&label=live%20sources)](https://ccpedia.xyz/api/v1/sources)
+[![REST endpoints](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fccpedia.xyz%2Fapi%2Fv1%2Fsources&query=%24.rest_endpoint_count&label=rest%20endpoints&color=informational)](https://ccpedia.xyz/api/v1/reference)
 
 CCPEDIA continuously syncs every official Canton surface (forum, GitHub, docs, CIPs, mailing lists, videos, dev fund, ecosystem registry, validator calendar, app metrics) and serves it to AI agents through one MCP endpoint and a REST API. No key, no signup, read only.
 
@@ -42,10 +44,14 @@ Interactive setup wizard: [ccpedia.xyz/for-ai](https://ccpedia.xyz/for-ai).
 
 ## What you get
 
-- **87 MCP tools** across 10 categories: search, CIPs, forum, mailing lists, docs, YouTube, ecosystem, validators, dev fund, releases. Full catalog: [docs.ccpedia.xyz/tools/overview](https://docs.ccpedia.xyz/tools/overview).
-- **15 live data sources** synced every 5 minutes to 24 hours depending on cadence. Live list: [ccpedia.xyz/api/v1/sources](https://ccpedia.xyz/api/v1/sources).
-- **20 Canton design patterns** for the questions we see most (SV operations, DAML fundamentals, token standards, governance, debugging). Index: [docs.ccpedia.xyz/patterns/overview](https://docs.ccpedia.xyz/patterns/overview).
-- **REST API** with 39 endpoints and an OpenAPI 3.1 spec: [ccpedia.xyz/api/v1/reference](https://ccpedia.xyz/api/v1/reference).
+Counts are on the badges above, read live from the API. They are deliberately
+not repeated in this text: every place that hardcoded them drifted apart, and a
+README on GitHub cannot render live values.
+
+- **MCP tools** across 10 categories: search, CIPs, forum, mailing lists, docs, YouTube, ecosystem, validators, dev fund, releases. Full catalog: [docs.ccpedia.xyz/tools/overview](https://docs.ccpedia.xyz/tools/overview).
+- **Live data sources** synced every 5 minutes to 24 hours depending on cadence. Live list: [ccpedia.xyz/api/v1/sources](https://ccpedia.xyz/api/v1/sources).
+- **Canton design patterns** for the questions we see most (SV operations, DAML fundamentals, token standards, governance, debugging). Index: [docs.ccpedia.xyz/patterns/overview](https://docs.ccpedia.xyz/patterns/overview).
+- **REST API** with an OpenAPI 3.1 spec: [ccpedia.xyz/api/v1/reference](https://ccpedia.xyz/api/v1/reference).
 
 Ask it "how do I build a token on Canton?" and it returns the actual CIP template code with citations, not a paraphrase.
 
