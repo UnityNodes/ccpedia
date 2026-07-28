@@ -40,10 +40,63 @@ curl -X POST https://ccpedia.xyz/mcp \
 | --- | --- |
 | `tools/list` | yes |
 | `tools/call` | yes |
-| `resources/list` | no (all data is tool-fronted) |
+| `resources/list` | yes |
+| `resources/read` | yes |
+| `resources/templates/list` | yes, but the list is empty |
 | `prompts/list` | no |
 | `ping` | yes |
+
+## Resources
+
+Seven read-only resources sit alongside the tools. They are snapshots a client
+can pull once and keep in context, rather than questions you ask.
+
+| URI | What it holds |
+| --- | --- |
+| `ccpedia://status` | Sync health, record counts by category, last sync time |
+| `ccpedia://versions` | Current SDK, Daml and Canton release versions |
+| `ccpedia://deprecations` | Known deprecated APIs and their replacements |
+| `ccpedia://tools` | The tool catalogue as data |
+| `ccpedia://docs-index` | Index of the synced documentation corpora |
+| `ccpedia://community` | Community surfaces: forum, mailing lists, chat |
+| `ccpedia://zenith` | Zenith-specific reference data |
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":3,"method":"resources/read","params":{"uri":"ccpedia://status"}}'
+```
 
 ## Rate limit
 
 60 calls per 15-minute window per IP. Exceeding it returns `429` with a `Retry-After` header. If you need more, self-host. Source is Apache 2.0 at [github.com/UnityNodes/ccpedia](https://github.com/UnityNodes/ccpedia).
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="406 Not Acceptable">
+    The `accept` header must list both types:
+    ```
+    accept: application/json, text/event-stream
+    ```
+    Sending only `application/json` is the single most common integration error. The transport is allowed to answer either way and refuses the request if it cannot.
+  </Accordion>
+  <Accordion title="The response body looks like text, not JSON">
+    That is expected. Streamable HTTP frames the reply as server-sent events, so the body arrives as:
+    ```
+    event: message
+    data: {"result":{...},"jsonrpc":"2.0","id":1}
+    ```
+    Strip the `data: ` prefix before parsing, or use an MCP client library that handles framing for you.
+  </Accordion>
+  <Accordion title="Method not found (-32601)">
+    Only the methods in the table above are implemented. `prompts/list` in particular returns this error. It is not a misconfiguration.
+  </Accordion>
+  <Accordion title="Connection works from a browser but not from a server">
+    The public host sits behind Cloudflare, which challenges some datacenter address ranges. If your requests come from a cloud provider and you get an HTML challenge page instead of JSON, tell us which provider through the [contact form](https://ccpedia.xyz/contact) and we will add a carve-out.
+  </Accordion>
+  <Accordion title="A tool returns an empty result">
+    Empty is a real answer, not a failure. It means nothing in the corpus matched. Widen the query, or call the broad `search` tool before a narrower one to see whether the topic is indexed at all.
+  </Accordion>
+</Accordions>

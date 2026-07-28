@@ -29,3 +29,25 @@ description: "Connect CCPEDIA to Zed's context server config."
 Zed connects to streamable HTTP servers directly. No stdio bridge needed.
 
 [Zed MCP docs ↗](https://zed.dev/docs/ai/mcp)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="Zed reports a settings parse error">
+    `settings.json` in Zed allows comments, but it still rejects trailing commas. If you pasted the block at the end of an existing object, check the comma before it.
+
+    Zed shows the failing line number in the error. Jump straight there.
+  </Accordion>
+  <Accordion title="The block is under the wrong key">
+    Zed uses `context_servers`, not `mcpServers`. Every other client on these pages uses `mcpServers`, so this is easy to get wrong when copying between them.
+  </Accordion>
+  <Accordion title="Reload did nothing">
+    `zed: reload settings` picks up most changes, but a newly added context server sometimes needs a full restart. Quit Zed and reopen before assuming the config is wrong.
+  </Accordion>
+  <Accordion title="Tools are listed but the assistant ignores them">
+    Context servers are available to the Assistant panel, not to inline completions. Open the Assistant and ask there.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

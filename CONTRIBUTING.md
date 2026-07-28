@@ -4,7 +4,11 @@ Thanks for helping. There are four ways to contribute, ordered by how quickly yo
 
 ## 1. Fix a typo or sharpen a page
 
-The docs live under `content/docs/` in this repo. Edit the `.mdx` file, push, open a PR. The Fumadocs site rebuilds on merge and the change is live at `docs.ccpedia.xyz` within a minute.
+The docs live under `content/docs/` in this repo. Edit the `.mdx` file, push, open a PR.
+
+CI runs on every PR. It type checks the site, builds it, and fails the run if it finds an em dash or en dash. A green run means your change will not break the build.
+
+Deployment is manual. `docs.ccpedia.xyz` runs from a server we operate, so a maintainer pulls and rebuilds after merge. That usually happens the same day. Merged does not mean live yet.
 
 Style notes:
 

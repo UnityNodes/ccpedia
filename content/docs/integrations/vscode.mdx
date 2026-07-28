@@ -36,3 +36,25 @@ description: "Add CCPEDIA to GitHub Copilot's Agent Mode via VS Code's native MC
 <Callout type="info">One-click install: [Install in VS Code](https://insiders.vscode.dev/redirect/mcp/install?name=ccpedia&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fccpedia.xyz%2Fmcp%22%7D) skips the manual JSON.</Callout>
 
 [VS Code MCP docs ↗](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="The server does not start">
+    `"type": "http"` is required. Without it VS Code guesses stdio and tries to execute the URL. The error surfaces in Output, then MCP, and looks like a command-not-found.
+  </Accordion>
+  <Accordion title="Wrong top-level key">
+    VS Code uses `servers`. Cursor, Cline and Claude Desktop use `mcpServers`. A block copied from another page parses as valid JSON and is then ignored entirely, with no error.
+  </Accordion>
+  <Accordion title="Tools are missing from the picker">
+    They only appear in Agent mode. Open Copilot Chat, switch the mode selector from Ask to Agent, then open the tools picker.
+
+    Copilot also caps how many tools it will offer at once. If you have several MCP servers enabled, disable the ones you are not using for this task.
+  </Accordion>
+  <Accordion title="Works in one workspace only">
+    `.vscode/mcp.json` is per project. For every project, run `MCP: Open User Configuration` from the command palette and add the block there instead.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

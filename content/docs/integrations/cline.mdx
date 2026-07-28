@@ -31,3 +31,26 @@ description: "Add CCPEDIA as a remote MCP server in the Cline VS Code extension.
 <Callout type="warn">The `type` field matters. Without `"type": "streamableHttp"`, Cline falls back to the legacy SSE transport instead of the HTTP transport CCPEDIA actually serves.</Callout>
 
 [Cline MCP docs ↗](https://docs.cline.bot/mcp/configuring-mcp-servers)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="Connection fails with an SSE or transport error">
+    The `type` field is the cause. It must be `"streamableHttp"`, spelled with that exact casing. Omit it and Cline falls back to the legacy SSE transport, which CCPEDIA does not serve.
+  </Accordion>
+  <Accordion title="Server shows as disabled">
+    `"disabled": false` has to be present. Cline treats a missing `disabled` key on a manually added server as disabled in some versions. Set it explicitly.
+  </Accordion>
+  <Accordion title="Cline asks for approval on every single call">
+    Expected by default. CCPEDIA has no write tools, so approving them in bulk is safe. Add the tools you use often to `autoApprove`:
+    ```json
+    "autoApprove": ["search", "list_cips", "get_current_versions", "diagnose_error"]
+    ```
+  </Accordion>
+  <Accordion title="Edited the JSON but Cline did not reconnect">
+    Use the Restart button on the server row in the MCP Servers panel. Cline does not watch the file for changes.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Cline retries automatically on some errors, which can burn the window faster than expected. Wait it out, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

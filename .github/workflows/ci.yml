@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A second push to the same PR cancels the first run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Types and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # package.json pins engines.node to ^22. Prod runs 22.18.0.
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Type check
+        run: npm run types:check
+
+      - name: Build
+        # Catches broken MDX, bad frontmatter and dead component imports,
+        # which is what actually breaks a docs PR. The live-count fetch in
+        # lib/counts.ts falls back to static values when ccpedia.xyz is
+        # unreachable from the runner, so the build does not depend on it.
+        run: npm run build
+
+  prose:
+    name: Prose rules
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No em dashes or en dashes in docs
+        # CONTRIBUTING.md forbids them. Checking it here means a reviewer
+        # never has to.
+        run: |
+          if grep -rnP '[\x{2014}\x{2013}]' content/ *.md 2>/dev/null; then
+            echo
+            echo "Found an em dash or en dash in the lines above."
+            echo "Rewrite the sentence. Use a comma, a period, or parentheses."
+            exit 1
+          fi
+          echo "Clean."
