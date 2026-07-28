@@ -1,0 +1,28 @@
+---
+title: "Continue.dev"
+description: "Add CCPEDIA as an MCP server block for Continue's agent mode."
+---
+
+<Steps>
+  ### Create the server file
+
+    `.continue/mcpServers/ccpedia.yaml` in your workspace, or `~/.continue/mcpServers/` to make it available in every project.
+
+  ### Add the block
+
+    ```yaml
+    name: CCPEDIA
+    version: 0.0.1
+    schema: v1
+    mcpServers:
+      - name: CCPEDIA
+        type: streamable-http
+        url: https://ccpedia.xyz/mcp
+    ```
+
+  ### Use it
+
+    Switch to Agent mode in Continue's chat. CCPEDIA tools sit alongside your other configured tools.
+</Steps>
+
+[Continue.dev MCP docs ↗](https://docs.continue.dev/customize/deep-dives/mcp)

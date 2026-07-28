@@ -1,0 +1,24 @@
+---
+title: "ChatGPT"
+description: "Add CCPEDIA as a custom connector in ChatGPT's Developer mode."
+---
+
+<Steps>
+  ### Turn on Developer mode
+
+    Settings, then Connectors, then Advanced settings, then toggle Developer mode on.
+
+  ### Create the connector
+
+    Back in Connectors settings, click Create. Name it CCPEDIA and set:
+    URL: `https://ccpedia.xyz/mcp`
+    Transport: Streamable HTTP. No authentication needed.
+
+  ### Enable it in a chat
+
+    In the message box, click the + icon, then More, then Developer mode. Toggle CCPEDIA on for that conversation.
+</Steps>
+
+<Callout type="info">Developer mode with custom connectors is available on Plus, Pro, Team, Enterprise and Edu. Free ChatGPT does not support custom MCP servers.</Callout>
+
+<Callout type="info">CCPEDIA has no write tools, so every call is read only. There is nothing for ChatGPT to ask approval for.</Callout>
