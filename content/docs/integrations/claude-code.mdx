@@ -17,14 +17,16 @@ The fastest path is the `claude mcp add` command. No manual JSON.
   ### Project scope (shared with your team)
 
     ```bash
-    claude mcp add --transport http ccpedia --scope project https://ccpedia.xyz/mcp
+    claude mcp add --transport http ccpedia \
+      --scope project https://ccpedia.xyz/mcp
     ```
     Writes to project-root `.mcp.json`, so it's shared with anyone who clones the repo.
   
   ### User scope (all your projects)
 
     ```bash
-    claude mcp add --transport http ccpedia --scope user https://ccpedia.xyz/mcp
+    claude mcp add --transport http ccpedia \
+      --scope user https://ccpedia.xyz/mcp
     ```
   
   ### Verify
