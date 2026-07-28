@@ -14,11 +14,7 @@ description: "Connect CCPEDIA to Zed's context server config."
     {
       "context_servers": {
         "ccpedia": {
-          "command": {
-            "path": "npx",
-            "args": ["-y", "mcp-remote", "https://ccpedia.xyz/mcp"]
-          },
-          "settings": {}
+          "url": "https://ccpedia.xyz/mcp"
         }
       }
     }
@@ -30,4 +26,6 @@ description: "Connect CCPEDIA to Zed's context server config."
   
 </Steps>
 
-[Zed MCP docs ↗](https://zed.dev/docs/assistant/model-context-protocol)
+Zed connects to streamable HTTP servers directly. No stdio bridge needed.
+
+[Zed MCP docs ↗](https://zed.dev/docs/ai/mcp)

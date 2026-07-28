@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "ccpedia": {
+      "type": "http",
       "url": "https://ccpedia.xyz/mcp"
     }
   }

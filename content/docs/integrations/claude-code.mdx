@@ -6,18 +6,25 @@ description: "Add CCPEDIA tools to your shell sessions via Anthropic's terminal 
 The fastest path is the `claude mcp add` command. No manual JSON.
 
 <Steps>
-  ### Project scope (default)
+  ### Local scope (default, quickest)
 
     From inside your project's working tree:
     ```bash
-    claude mcp add ccpedia https://ccpedia.xyz/mcp
+    claude mcp add --transport http ccpedia https://ccpedia.xyz/mcp
     ```
-    This writes to project-root `.mcp.json`.
+    Private to you, this project only. Nothing gets committed.
   
-  ### User scope (shared across projects)
+  ### Project scope (shared with your team)
 
     ```bash
-    claude mcp add ccpedia --user-scope https://ccpedia.xyz/mcp
+    claude mcp add --transport http ccpedia --scope project https://ccpedia.xyz/mcp
+    ```
+    Writes to project-root `.mcp.json`, so it's shared with anyone who clones the repo.
+  
+  ### User scope (all your projects)
+
+    ```bash
+    claude mcp add --transport http ccpedia --scope user https://ccpedia.xyz/mcp
     ```
   
   ### Verify
@@ -33,4 +40,4 @@ The fastest path is the `claude mcp add` command. No manual JSON.
 
 Inside Claude Code, tools are namespaced as `mcp__ccpedia__<tool>`. You rarely need to type the name. Just ask in plain English.
 
-[Claude Code docs ↗](https://docs.anthropic.com/claude/docs/claude-code)
+[Claude Code MCP docs ↗](https://code.claude.com/docs/en/mcp)
