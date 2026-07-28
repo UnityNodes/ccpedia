@@ -21,7 +21,7 @@ export function ParamField({
           </span>
         )}
         {required && (
-          <span className="rounded bg-red-500/10 px-1.5 py-0.5 text-xs text-red-500">
+          <span className="rounded bg-red-500/10 px-1.5 py-0.5 text-xs text-red-700 dark:text-red-400">
             required
           </span>
         )}
