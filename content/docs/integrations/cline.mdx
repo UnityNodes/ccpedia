@@ -1,0 +1,33 @@
+---
+title: "Cline"
+description: "Add CCPEDIA as a remote MCP server in the Cline VS Code extension."
+---
+
+<Steps>
+  ### Open the MCP settings
+
+    In VS Code, open the Cline panel, then MCP Servers, then Remote Servers.
+
+  ### Add the CCPEDIA server
+
+    ```json
+    {
+      "mcpServers": {
+        "ccpedia": {
+          "type": "streamableHttp",
+          "url": "https://ccpedia.xyz/mcp",
+          "disabled": false,
+          "autoApprove": []
+        }
+      }
+    }
+    ```
+
+  ### Use it
+
+    Ask Cline a Canton question directly. It calls CCPEDIA tools automatically when relevant.
+</Steps>
+
+<Callout type="warn">The `type` field matters. Without `"type": "streamableHttp"`, Cline falls back to the legacy SSE transport instead of the HTTP transport CCPEDIA actually serves.</Callout>
+
+[Cline MCP docs ↗](https://docs.cline.bot/mcp/configuring-mcp-servers)

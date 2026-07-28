@@ -1,0 +1,38 @@
+---
+title: "VS Code"
+description: "Add CCPEDIA to GitHub Copilot's Agent Mode via VS Code's native MCP support."
+---
+
+<Steps>
+  ### Open the MCP config
+
+    Workspace (shared via git): create `.vscode/mcp.json` in your project root.
+    Your own profile only: run `MCP: Open User Configuration` from the command palette instead.
+
+  ### Add the CCPEDIA server block
+
+    ```json
+    {
+      "servers": {
+        "ccpedia": {
+          "type": "http",
+          "url": "https://ccpedia.xyz/mcp"
+        }
+      }
+    }
+    ```
+
+  ### Or skip the file with the CLI
+
+    ```bash
+    code --add-mcp "{\"name\":\"ccpedia\",\"type\":\"http\",\"url\":\"https://ccpedia.xyz/mcp\"}"
+    ```
+
+  ### Enable Agent Mode
+
+    Open Copilot Chat and switch to Agent mode. CCPEDIA tools appear in the tools picker.
+</Steps>
+
+<Callout type="info">One-click install: [Install in VS Code](https://insiders.vscode.dev/redirect/mcp/install?name=ccpedia&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fccpedia.xyz%2Fmcp%22%7D) skips the manual JSON.</Callout>
+
+[VS Code MCP docs ↗](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)

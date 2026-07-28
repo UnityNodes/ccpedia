@@ -1,0 +1,29 @@
+---
+title: "JetBrains"
+description: "Add CCPEDIA to AI Assistant in IntelliJ, PyCharm, WebStorm and other JetBrains IDEs (2025.2+)."
+---
+
+<Steps>
+  ### Open MCP settings
+
+    Settings, then Tools, then AI Assistant, then Model Context Protocol (MCP).
+
+  ### Add a server
+
+    Click Add, choose HTTP as the transport, then paste:
+    ```json
+    {
+      "mcpServers": {
+        "ccpedia": {
+          "url": "https://ccpedia.xyz/mcp"
+        }
+      }
+    }
+    ```
+
+  ### Set the scope and confirm
+
+    Choose whether the server is available globally or only in the current project, then OK, then Apply.
+</Steps>
+
+[JetBrains AI Assistant MCP docs ↗](https://www.jetbrains.com/help/ai-assistant/mcp.html)

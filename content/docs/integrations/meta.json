@@ -3,10 +3,16 @@
   "pages": [
     "overview",
     "claude-desktop",
-    "cursor",
-    "windsurf",
+    "claude-ai",
     "claude-code",
+    "cursor",
+    "vscode",
+    "windsurf",
     "zed",
+    "cline",
+    "continue-dev",
+    "jetbrains",
+    "chatgpt",
     "generic"
   ]
 }
