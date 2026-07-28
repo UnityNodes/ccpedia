@@ -26,3 +26,25 @@ description: "Add CCPEDIA as an MCP server block for Continue's agent mode."
 </Steps>
 
 [Continue.dev MCP docs ↗](https://docs.continue.dev/customize/deep-dives/mcp)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="The block is ignored">
+    Check the transport spelling. Continue expects `streamable-http` with a hyphen. Cline uses `streamableHttp` in camel case. They are not interchangeable.
+  </Accordion>
+  <Accordion title="YAML indentation errors">
+    `mcpServers` takes a list, so each entry starts with `- name:`. A block indented as a mapping instead of a list item parses but registers nothing.
+
+    Continue logs parse failures under Output, then Continue. Check there before editing further.
+  </Accordion>
+  <Accordion title="File is in the wrong place">
+    The file goes in `.continue/mcpServers/`, one server per file. Putting the block inside `config.yaml` is the older layout and is no longer read.
+  </Accordion>
+  <Accordion title="Tools do not show up in chat">
+    MCP tools are Agent mode only. Switch the mode selector in Continue's chat pane from Chat to Agent.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

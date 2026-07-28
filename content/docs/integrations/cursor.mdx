@@ -35,3 +35,34 @@ description: "Add CCPEDIA to Cursor's MCP settings. Native streamable HTTP, no b
 - Tool descriptions show inline in the picker. Cursor's autocomplete usually selects the right one.
 
 [Cursor's MCP docs ↗](https://docs.cursor.com/context/model-context-protocol)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="The server shows a red dot in MCP settings">
+    Almost always the field name. Cursor wants `url`. Windsurf wants `serverUrl`, Cline wants `type` plus `url`. Copying a block from another client's docs is the usual cause.
+
+    Confirm the endpoint answers independently:
+    ```bash
+    curl -s -X POST https://ccpedia.xyz/mcp \
+      -H 'content-type: application/json' \
+      -H 'accept: application/json, text/event-stream' \
+      -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' | head -c 200
+    ```
+    If that returns JSON, the problem is in the config, not the server.
+  </Accordion>
+  <Accordion title="Tools do not appear in the @ menu">
+    Toggle the server off and on in Settings, then MCP. Cursor loads the tool list once per connection and does not always retry after a failed first attempt.
+
+    If it still fails, restart Cursor completely.
+  </Accordion>
+  <Accordion title="Agent picks the wrong tool">
+    CCPEDIA exposes a large tool set, and several tools cover neighbouring ground. Name the one you want in the prompt, or @-mention it directly. Cursor honours an explicit mention over its own guess.
+  </Accordion>
+  <Accordion title="Works in Composer but not in the sidebar chat">
+    MCP tools are wired to Agent mode. The plain chat pane does not call them. Switch to Composer with Agent enabled.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

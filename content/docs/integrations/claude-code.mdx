@@ -43,3 +43,33 @@ The fastest path is the `claude mcp add` command. No manual JSON.
 Inside Claude Code, tools are namespaced as `mcp__ccpedia__<tool>`. You rarely need to type the name. Just ask in plain English.
 
 [Claude Code MCP docs ↗](https://code.claude.com/docs/en/mcp)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="claude mcp list shows ccpedia as failed">
+    Check the transport. `--transport http` is required. Without it Claude Code assumes stdio and tries to run `https://ccpedia.xyz/mcp` as a shell command, which fails immediately.
+
+    Re-add it:
+    ```bash
+    claude mcp remove ccpedia
+    claude mcp add --transport http ccpedia https://ccpedia.xyz/mcp
+    ```
+  </Accordion>
+  <Accordion title="Added at project scope but a teammate does not see it">
+    Project scope writes `.mcp.json` at the repo root. It has to be committed. Check `git status`, and check `.mcp.json` is not in `.gitignore`.
+
+    Your teammate also gets a one-time approval prompt the first time they open the project. Until they accept, the server stays inactive on their machine.
+  </Accordion>
+  <Accordion title="Tools connect but Claude never calls them">
+    Ask a question that clearly needs live Canton data, for example *"What is the current Canton SDK version?"*. If the answer looks like something the model already knows, it will answer from memory rather than call a tool.
+
+    To force it, name the tool: *"Use get_current_versions."*
+  </Accordion>
+  <Accordion title="Same server added twice at different scopes">
+    Local, project and user scopes stack. `claude mcp list` shows each entry. Remove the ones you do not want with `claude mcp remove ccpedia --scope <scope>`.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. An agent loop can burn that fast. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

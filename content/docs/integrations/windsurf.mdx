@@ -29,3 +29,28 @@ description: "Wire CCPEDIA into Codeium's AI IDE."
 <Callout type="warn">The Windsurf field name is `serverUrl`, not `url` (Cursor uses `url`). Mixing them up is the most common config error.</Callout>
 
 [Windsurf MCP docs ↗](https://docs.codeium.com/windsurf/mcp)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="Server never connects">
+    Check the field name first. Windsurf reads `serverUrl`. If you pasted `url` from the Cursor or Zed page, Windsurf sees a server with no address and fails silently.
+  </Accordion>
+  <Accordion title="mcp_config.json does not exist">
+    Windsurf creates it on first use of the MCP panel, not at install. Create the directory and file yourself if needed:
+    ```bash
+    mkdir -p ~/.codeium/windsurf
+    touch ~/.codeium/windsurf/mcp_config.json
+    ```
+    The file must contain valid JSON. An empty file is invalid; start from `{}`.
+  </Accordion>
+  <Accordion title="Edited the config but nothing changed">
+    Windsurf reads the config at startup. Quit fully and reopen. Reloading the window is not enough.
+  </Accordion>
+  <Accordion title="Tool calls appear to hang">
+    Some CCPEDIA tools run a semantic search and take a few seconds on a cold cache. If a call sits longer than about 30 seconds, the connection dropped rather than the query being slow. Restart Windsurf and retry.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

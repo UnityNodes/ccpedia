@@ -21,3 +21,25 @@ description: "Add CCPEDIA as a custom connector on claude.ai, no desktop app or 
 <Callout type="info">Available on Free, Pro, Max, Team and Enterprise. The Free plan is limited to one custom connector in total, not just one for CCPEDIA.</Callout>
 
 [Claude connectors help center ↗](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="Add custom connector is greyed out or missing">
+    On Free you get one custom connector in total. If you already have one, remove it before adding CCPEDIA.
+
+    On Team and Enterprise an admin can restrict who may add connectors. If the option is missing on a work account, that setting is the reason.
+  </Accordion>
+  <Accordion title="Connector fails right after adding it">
+    Paste the URL with no trailing slash: `https://ccpedia.xyz/mcp`. Leave both OAuth fields under Advanced settings empty. A client ID with no matching secret makes Claude attempt an auth handshake that CCPEDIA has no reason to answer.
+  </Accordion>
+  <Accordion title="Connector is listed but the chat never uses it">
+    Enable it inside the conversation from the tools menu under the message box. Enabling it in settings alone is not enough.
+  </Accordion>
+  <Accordion title="Works on web but not on mobile">
+    Connectors sync across surfaces, but the mobile app caches the list. Force quit the app and reopen. If it still does not appear, toggle the connector off and on from the web.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

@@ -22,3 +22,25 @@ description: "Add CCPEDIA as a custom connector in ChatGPT's Developer mode."
 <Callout type="info">Developer mode with custom connectors is available on Plus, Pro, Team, Enterprise and Edu. Free ChatGPT does not support custom MCP servers.</Callout>
 
 <Callout type="info">CCPEDIA has no write tools, so every call is read only. There is nothing for ChatGPT to ask approval for.</Callout>
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="No Developer mode toggle in settings">
+    It sits under Settings, then Connectors, then Advanced settings. If Advanced settings is missing entirely, the account is on the Free plan, which does not support custom MCP connectors. Plus, Pro, Team, Enterprise and Edu do.
+  </Accordion>
+  <Accordion title="Connector saves but returns an error on first use">
+    Set the transport to Streamable HTTP explicitly. The dialog sometimes defaults to SSE, which CCPEDIA does not serve.
+
+    Leave every authentication field empty. Filling in a placeholder token makes ChatGPT send an `Authorization` header, and a malformed one is worse than none.
+  </Accordion>
+  <Accordion title="Connector is on but never gets used">
+    It has to be enabled per conversation, not just per account. In the message box click +, then More, then Developer mode, and toggle CCPEDIA on for that chat. Starting a new chat resets it.
+  </Accordion>
+  <Accordion title="Answers ignore the tools and sound generic">
+    Ask something that cannot be answered from training data, for example *"Which CIPs passed their on-chain vote this quarter?"*. If it still answers without a tool call, name the connector in the prompt.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>

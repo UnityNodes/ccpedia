@@ -74,9 +74,9 @@ SHOWCASE.md         Real examples of CCPEDIA answering faster than humans
 
 ## Contribute
 
-- **Fix a typo, sharpen a page, add an example.** Edit any `.mdx` under `content/docs/` and open a PR. The site rebuilds on merge.
+- **Fix a typo, sharpen a page, add an example.** Edit any `.mdx` under `content/docs/` and open a PR. CI type checks and builds it; a maintainer deploys after merge.
 - **Wrong or outdated answer.** Open an issue with the tool name, your prompt, and what CCPEDIA returned.
-- **Propose a new data source** — open an issue with the source URL and why the ecosystem needs it indexed.
+- **Propose a new data source.** Open an issue with the source URL and why the ecosystem needs it indexed.
 
 Details: [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -27,3 +27,26 @@ description: "Add CCPEDIA to AI Assistant in IntelliJ, PyCharm, WebStorm and oth
 </Steps>
 
 [JetBrains AI Assistant MCP docs ↗](https://www.jetbrains.com/help/ai-assistant/mcp.html)
+
+## Troubleshooting
+
+<Accordions type="single">
+  <Accordion title="No Model Context Protocol section in Settings">
+    MCP support landed in the 2025.2 release cycle. Check Help, then About. On an older IDE the section does not exist and there is no plugin that adds it. Upgrade the IDE.
+  </Accordion>
+  <Accordion title="AI Assistant is installed but disabled">
+    MCP servers only appear once AI Assistant is active and signed in. Check Settings, then Plugins, that AI Assistant is enabled, then sign in under Settings, then Tools, then AI Assistant.
+  </Accordion>
+  <Accordion title="Added the server but tools never fire">
+    Check the scope you picked. A project-scoped server is invisible in every other project window. Reopen the settings and switch it to global if you want it everywhere.
+  </Accordion>
+  <Accordion title="Transport set to stdio by mistake">
+    The Add dialog defaults to a command-based server. Choose HTTP before pasting the URL, otherwise the IDE tries to launch `https://ccpedia.xyz/mcp` as an executable.
+  </Accordion>
+  <Accordion title="Behind a corporate proxy">
+    AI Assistant uses the IDE's HTTP proxy settings under Settings, then Appearance and Behavior, then System Settings, then HTTP Proxy. A proxy that intercepts TLS needs its certificate in the IDE trust store, otherwise the connection fails with a handshake error.
+  </Accordion>
+  <Accordion title="Rate-limit errors">
+    60 calls per 15 minutes per IP, then `429` with a `Retry-After` header. Wait out the window, or self-host. Source is Apache 2.0.
+  </Accordion>
+</Accordions>
