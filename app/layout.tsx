@@ -17,12 +17,13 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata = {
   metadataBase: new URL('https://docs.ccpedia.xyz'),
+  alternates: { canonical: '/' },
   title: {
     default: 'CCPEDIA docs',
     template: '%s | CCPEDIA docs',
   },
   description:
-    'Canton Network knowledge platform. 78 MCP tools, 25 live data sources, 20 design patterns.',
+    'Canton Network knowledge platform. 87 MCP tools, 15 live data sources, 20 design patterns.',
   applicationName: 'CCPEDIA docs',
   authors: [{ name: 'Unity Nodes', url: 'https://unitynodes.com' }],
   keywords: [
@@ -40,14 +41,14 @@ export const metadata = {
     siteName: 'CCPEDIA docs',
     title: 'CCPEDIA docs',
     description:
-      '78 MCP tools, 25 live Canton data sources. One endpoint at ccpedia.xyz/mcp.',
+      '87 MCP tools, 15 live Canton data sources. One endpoint at ccpedia.xyz/mcp.',
     url: 'https://docs.ccpedia.xyz',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'CCPEDIA docs',
     description:
-      '78 MCP tools, 25 live Canton data sources. One endpoint at ccpedia.xyz/mcp.',
+      '87 MCP tools, 15 live Canton data sources. One endpoint at ccpedia.xyz/mcp.',
     site: '@UnityNodes',
   },
   icons: {

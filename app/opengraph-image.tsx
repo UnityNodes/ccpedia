@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'CCPEDIA docs — 78 MCP tools for Canton Network';
+export const alt = 'CCPEDIA docs — 87 MCP tools for Canton Network';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -80,7 +80,7 @@ export default async function Image() {
               display: 'flex',
             }}
           >
-            Canton Network knowledge platform. 78 MCP tools, 25 live data
+            Canton Network knowledge platform. 87 MCP tools, 15 live data
             sources, one endpoint at ccpedia.xyz/mcp.
           </div>
         </div>
@@ -96,8 +96,8 @@ export default async function Image() {
           }}
         >
           <div style={{ display: 'flex', gap: 32 }}>
-            <span>78 MCP TOOLS</span>
-            <span>25 SOURCES</span>
+            <span>87 MCP TOOLS</span>
+            <span>15 SOURCES</span>
             <span>20 PATTERNS</span>
           </div>
           <div style={{ color: '#f3ff97' }}>OPEN SOURCE · APACHE 2.0</div>
