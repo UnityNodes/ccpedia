@@ -97,8 +97,12 @@ aside a[data-active='true'] {
 /* Prose accent colour */
 .prose a,
 main a {
-  color: var(--ccpedia-accent);
+  color: #7340e0;
   text-underline-offset: 3px;
+}
+.dark .prose a,
+.dark main a {
+  color: var(--ccpedia-accent);
 }
 .prose a:hover,
 main a:hover {
