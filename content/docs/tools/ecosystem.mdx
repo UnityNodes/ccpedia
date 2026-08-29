@@ -1,11 +1,32 @@
 ---
 title: "Ecosystem"
-description: "Canton ecosystem projects. Similarity search, collaboration matching, dependency graph, gap detection."
+description: "Canton ecosystem projects. Similarity search, collaboration matching, dependency graph, gap detection, Canton MCP directory and federation."
 ---
 
-Canton ecosystem projects. Similarity search, collaboration matching, dependency graph, gap detection.
+Canton ecosystem projects. Similarity search, collaboration matching, dependency graph, gap detection, Canton MCP directory and federation.
 
-6 tools in this group.
+8 tools in this group.
+
+### `call_canton_mcp`
+
+Federate a tool call to another Canton MCP server (see list_canton_mcps). CCPEDIA proxies the call and returns the result, acting as one MCP that routes across the Canton MCP ecosystem. Only free, hosted, no-auth Canton MCPs can be proxied; local or paid ones return connect instructions instead. Canton-only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="server" type="string" required>Target MCP id from list_canton_mcps (e.g. "ccpedia", "x402-mcp")</ParamField>
+<ParamField path="tool" type="string" required>Tool name to call on that server</ParamField>
+<ParamField path="arguments" type="object">Arguments object for that tool</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"call_canton_mcp","arguments":{}}}'
+```
+
+---
 
 ### `ecosystem_dependency_graph`
 
@@ -60,6 +81,25 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_github_discussion","arguments":{}}}'
+```
+
+---
+
+### `list_canton_mcps`
+
+List the Canton Network MCP servers CCPEDIA knows about: a directory of the Canton MCP ecosystem (payments, wallets, docs, knowledge). For each: what it does, how to connect or run it, whether it is free/hosted, and whether CCPEDIA can call it directly via call_canton_mcp. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+_No arguments. Call with `\{\}`._
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_canton_mcps","arguments":{}}}'
 ```
 
 ---

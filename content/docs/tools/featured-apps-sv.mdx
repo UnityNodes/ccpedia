@@ -1,11 +1,11 @@
 ---
 title: "Featured apps and SV"
-description: "Live Featured Apps from the Scan API and the Super Validator operations calendar. Schedules, freezes, upgrades, releases."
+description: "Live Featured Apps from the Scan API, the Super Validator operations calendar, and the DSO validator registry. Schedules, freezes, upgrades, releases, validator lookups."
 ---
 
-Live Featured Apps from the Scan API and the Super Validator operations calendar. Schedules, freezes, upgrades, releases.
+Live Featured Apps from the Scan API, the Super Validator operations calendar, and the DSO validator registry. Schedules, freezes, upgrades, releases, validator lookups.
 
-8 tools in this group.
+11 tools in this group.
 
 ### `get_app_metrics`
 
@@ -123,6 +123,27 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ---
 
+### `get_upcoming_deadlines`
+
+Canton operational deadlines coming up: scheduled upgrades, minimum-version raises, topology freezes and Logical Synchronizer Upgrades, per network. Use for "what do I have to do in the next N days" on DevNet, TestNet or MainNet. Events whose network could not be attributed are excluded rather than guessed, because a wrong deadline is worse than a missing one. A subscribable calendar of the same data is at https://ccpedia.xyz/calendar. For a verdict on your specific version use get_upgrade_status; for the full historical schedule use get_sv_schedule. Canton ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="environment" type="string">"MainNet", "TestNet" or "DevNet". Omit for all networks.</ParamField>
+<ParamField path="days" type="integer">How far ahead to look, in days. Default 30.</ParamField>
+<ParamField path="validator_only" type="boolean">Only events that require a validator operator to act.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_upcoming_deadlines","arguments":{}}}'
+```
+
+---
+
 ### `get_upcoming_operations`
 
 Convenience wrapper: SV operations in the next N days, all environments, all operation types. Canton-specific. Quick "what should I be ready for this week?" answer for validator/SV ops.
@@ -138,6 +159,45 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_upcoming_operations","arguments":{}}}'
+```
+
+---
+
+### `get_validator`
+
+Look up an individual Canton validator node in the DSO registry by name or party id: its sponsor, self-reported Splice version and how stale that report is, when it was last active, the round range it has been earning over, and how many reward coupons it has missed. CCPEDIA-unique: derived from the DSO validator licenses on the public Scan API. Use for "is node X still live", "how reliable is X", and "who onboarded X" where the registry records a distinct sponsor (about half the fleet does; the rest name themselves and this says so rather than repeating the node name back). For the version distribution across the whole fleet use get_validator_fleet; for whether a version passes the MainNet minimum use get_upgrade_status; for Super Validator GOVERNANCE voting records use list_votes_by_sv, which is a different population. Canton ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="name" type="string" required>Validator name or party id, whole or partial, e.g. "GSF-validator-2" or "MPCH".</ParamField>
+<ParamField path="limit" type="integer">Maximum matches to return (default 10, max 50).</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_validator","arguments":{}}}'
+```
+
+---
+
+### `get_validator_fleet`
+
+Where do you stand versus other Canton operators on your Splice version? Reports the whole DSO-approved validator fleet as a version distribution; call with no version to see the whole distribution, or pass your own version to get your exact position (early, typical, or dangerously behind most nodes). CCPEDIA-unique: no other public source publishes this. IMPORTANT: versions are self-reported by each operator in its license metadata, not observed, and many reports are months stale; the tool returns how many are fresh so you can qualify the answer. For the pass/fail rule (are you above the required minimum) use get_upgrade_status. Canton ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="version" type="string">Your Splice version, e.g. "0.6.9", to locate it in the distribution.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_validator_fleet","arguments":{}}}'
 ```
 
 ---

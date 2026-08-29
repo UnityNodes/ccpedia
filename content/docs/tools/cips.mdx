@@ -1,11 +1,11 @@
 ---
 title: "CIPs"
-description: "Canton Improvement Proposals. Lookup, status, votes, citations, dependency chains, governance comparisons."
+description: "Canton Improvement Proposals. Lookup, status, votes, citations, dependency chains, governance comparisons, on-chain DSO governance votes."
 ---
 
-Canton Improvement Proposals. Lookup, status, votes, citations, dependency chains, governance comparisons.
+Canton Improvement Proposals. Lookup, status, votes, citations, dependency chains, governance comparisons, on-chain DSO governance votes.
 
-10 tools in this group.
+14 tools in this group.
 
 ### `compare_governance_outcomes`
 
@@ -159,6 +159,26 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ---
 
+### `get_cip_vote_outcome`
+
+Find out whether a Canton Improvement Proposal (CIP) was actually acted on ON CHAIN, and how. Returns every DSO governance vote request whose text cites this CIP, with outcomes and dates. This answers 'was it decided', which the mailing-list tools cannot: get_cip_votes reads the discussion on the cip-vote list, this reads the ledger. Example: CIP-0116 (Featured App Locking) is cited in dozens of requests that paused apps for non-compliance. Canton ecosystem only, not Cardano or other CIP schemes.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="cip_id" type="string" required>CIP id, e.g. "CIP-0116", "116", "0116".</ParamField>
+<ParamField path="limit" type="integer">How many vote requests to return, newest first. Default 20, max 100. The response states the full count either way.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_vote_outcome","arguments":{}}}'
+```
+
+---
+
 ### `get_cip_votes`
 
 Get the formal vote tally (in-favor / against / abstain, one entry per recorded vote) for a specific Canton Improvement Proposal (CIP), sourced from the Canton cip-vote mailing list. Use for 'who voted how' / approval-trail verification on Governance-type CIPs. Not the attachment PDFs (get_cip_attachments) or status timeline (get_cip_history). Canton ecosystem only. not Cardano or other 'CIP' schemes.
@@ -174,6 +194,25 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_cip_votes","arguments":{}}}'
+```
+
+---
+
+### `get_governance_vote`
+
+Get the full detail of one Canton on-chain DSO governance vote request: the proposed action, the requester's stated reason, every Super Validator's individual vote with their own written reason, who abstained, the outcome and the date it took effect. Use after list_governance_votes when a specific decision matters. Canton ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="tracking_cid" type="string" required>The vote request tracking contract id, or a unique prefix of it, as returned by list_governance_votes.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_governance_vote","arguments":{}}}'
 ```
 
 ---
@@ -195,5 +234,47 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_cips","arguments":{}}}'
+```
+
+---
+
+### `list_governance_votes`
+
+List Canton Network on-chain DSO governance vote requests and their outcomes, from the ledger itself. Covers Featured App rights being granted or revoked, Super Validator reward-weight changes, SV offboarding, and AmuletRules/DsoRules config changes. CCPEDIA-unique: no other public source exposes this joined to the CIP corpus. Use for 'what has the DSO decided recently', 'which apps got Featured App status', 'what got rejected'. For one CIP's fate use get_cip_vote_outcome; for one Super Validator's record use list_votes_by_sv. Canton ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="limit" type="integer">Max rows (default 20).</ParamField>
+<ParamField path="action" type="string">Filter by action, e.g. "SRARC_GrantFeaturedAppRight", "SRARC_RevokeFeaturedAppRight", "SRARC_UpdateSvRewardWeight", "SRARC_OffboardSv".</ParamField>
+<ParamField path="outcome" type="string">One of "VRO_Accepted", "VRO_Rejected", "VRO_Expired". Omit for all outcomes; there is no "all" value.</ParamField>
+<ParamField path="status" type="string">"open" for votes still in flight, "closed" for decided ones. Omit for both; there is no "all" value.</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_governance_votes","arguments":{}}}'
+```
+
+---
+
+### `list_votes_by_sv`
+
+Get the on-chain voting record of Canton Super Validators: how many DSO governance votes each has cast, how often they voted for or against, how often they abstained, and the span of their participation. Use for 'how does Tradeweb vote', 'which SVs abstain most', 'who is most active in governance'. CCPEDIA-unique: derived from the full ledger vote history. Canton ecosystem only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="sv_name" type="string">Super Validator short name, e.g. "Tradeweb-Markets-1", "Digital-Asset-1", "Cumberland-1". Omit for all of them.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_votes_by_sv","arguments":{}}}'
 ```
 

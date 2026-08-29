@@ -5,7 +5,7 @@ description: "Track Canton, Splice, and Daml SDK versions. Release notes, npm pa
 
 Track Canton, Splice, and Daml SDK versions. Release notes, npm packages, deprecation status. Everything you need before bumping a version.
 
-9 tools in this group.
+10 tools in this group.
 
 ### `check_deprecation`
 
@@ -119,6 +119,26 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_sdk_changelog","arguments":{}}}'
+```
+
+---
+
+### `get_upgrade_status`
+
+Upgrade Copilot for a Canton validator: given the Splice version a node runs and its network, report whether it is below the minimum in force, how many releases behind, the next topology freeze and LSU (with UTC time), the minimum .dar package versions, and the breaking changes between the running version and the target. Canton-specific. Use when an operator asks "am I safe to skip this week?", "what breaks if I upgrade?", or "when is my next deadline?".
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="environment" type="string" required>One of "DevNet", "TestNet", "MainNet". Which network the node runs on.</ParamField>
+<ParamField path="version" type="string">Splice version the node currently runs, e.g. "0.6.9". Omit to get the schedule without a verdict.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_upgrade_status","arguments":{}}}'
 ```
 
 ---
