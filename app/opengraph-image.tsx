@@ -36,7 +36,7 @@ export default async function Image() {
             right: 0,
             bottom: 0,
             backgroundImage:
-              'linear-gradient(rgba(243,255,151,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(243,255,151,0.04) 1px, transparent 1px)',
+              'linear-gradient(rgba(30,144,217,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(30,144,217,0.06) 1px, transparent 1px)',
             backgroundSize: '48px 48px',
             display: 'flex',
           }}
@@ -58,7 +58,7 @@ export default async function Image() {
               display: 'flex',
               width: 18,
               height: 18,
-              background: '#f3ff97',
+              background: '#1e90d9',
             }}
           />
           docs.ccpedia.xyz
@@ -106,7 +106,7 @@ export default async function Image() {
             <span>{sources} SOURCES</span>
             <span>{patterns} PATTERNS</span>
           </div>
-          <div style={{ color: '#f3ff97' }}>OPEN SOURCE · APACHE 2.0</div>
+          <div style={{ color: '#1e90d9' }}>OPEN SOURCE · APACHE 2.0</div>
         </div>
       </div>
     ),
