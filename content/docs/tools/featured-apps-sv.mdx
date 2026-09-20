@@ -5,7 +5,7 @@ description: "Live Featured Apps from the Scan API, the Super Validator operatio
 
 Live Featured Apps from the Scan API, the Super Validator operations calendar, and the DSO validator registry. Schedules, freezes, upgrades, releases, validator lookups.
 
-11 tools in this group.
+13 tools in this group.
 
 ### `get_app_metrics`
 
@@ -119,6 +119,44 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_token_market","arguments":{}}}'
+```
+
+---
+
+### `get_asset_supply`
+
+Get total token supply for a Canton-ecosystem asset: Canton Coin (CC), CBTC, HECTO, HANDL, USDCx, EDELx, or cETH. Omit the asset param to get all seven. Each row carries provenance: Canton Coin's supply is chain_derived (verifiable via the Global Synchronizer Scan registry); every other asset's supply is issuer_reported (CIP-0056 states on-ledger publication does not allow independent verification of total supply, since the holdings it's computed from are private) - treat those numbers as the issuer's own claim, not an audited fact. Holder counts are usually not_disclosed (Canton's privacy model hides holdings from third parties by design) and appear as null, not zero. Sourced from CCTools' public API. Canton-only; cannot price or size-supply any other chain's tokens.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="asset" type="string">Slug or symbol to filter to one asset, e.g. "cbtc", "CBTC", "canton-coin", or "CC". Case-insensitive. Omit for all seven.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_asset_supply","arguments":{}}}'
+```
+
+---
+
+### `get_defi_pools`
+
+Get per-pool DeFi liquidity data on Canton from OneSwap, Send, and Tradecraft: pair, TVL, fee rate, APY, and reserve amounts. This is pool-level detail; for aggregate protocol-level TVL across all of Canton DeFi use get_token_market instead (that one also lists Cantex, which this tool does not cover - Cantex's own API has been down and CCTools marks its numbers stale). Sourced from CCTools' public API. Canton-only.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="protocol" type="string">Restrict to one DEX. Omit for all three.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_defi_pools","arguments":{}}}'
 ```
 
 ---
