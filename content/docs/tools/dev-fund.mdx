@@ -1,15 +1,15 @@
 ---
 title: "Dev Fund"
-description: "Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction."
+description: "Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps."
 ---
 
-Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction.
+Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps.
 
-5 tools in this group.
+8 tools in this group.
 
 ### `detect_builder_overlap`
 
-Given a project/proposal idea, find existing Canton ecosystem projects + dev-fund proposals that look similar. across BOTH the canton-dev-fund proposals corpus AND ecosystem_projects. Canton-specific. Cuts manual cross-reference research before submitting a new proposal.
+Given a project/proposal idea, find existing Canton ecosystem projects + dev-fund proposals that look similar: across BOTH the canton-dev-fund proposals corpus AND ecosystem_projects. Broader than find_similar_projects, which only searches the live ecosystem directory. Canton-specific. Cuts manual cross-reference research before submitting a new proposal.
 
 <Accordions type="single">
   <Accordion title="Arguments">
@@ -22,6 +22,25 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"detect_builder_overlap","arguments":{}}}'
+```
+
+---
+
+### `find_rfp_for_idea`
+
+Given a project idea, find which Canton Dev Fund RFP(s) it fits and how crowded that area is. Matches the idea against the RFP texts in the 2026-2028 roadmap (shared terms, shown), then for the best fits shows what the Foundation asks for, its stated appetite for grants, and the proposals that declare the RFP. Also shows the existing Dev Fund proposals closest to the idea by text whether or not they declared an RFP, because most never did. The match is lexical, so a fit with one or two shared terms is weak and flagged as such. If no RFP fits, the idea can still be filed as an individual initiative (outside the roadmap). Canton-specific. For the full RFP list use list_rfps; to include ecosystem projects as well as proposals use detect_builder_overlap.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="idea" type="string" required>One-paragraph project idea or capability description.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_rfp_for_idea","arguments":{}}}'
 ```
 
 ---
@@ -66,12 +85,13 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `get_proposals`
 
-List Canton Network Dev Fund grant proposals. community funding requests tracked on GitHub. filterable by state (open/closed/all). Use for 'what grants/funding requests exist' questions. NOT the same as Canton Improvement Proposals (CIPs): those are governance specs (use list_cips / get_cip). Returns number, title, state, author, and board status. Canton ecosystem only.
+List Canton Network Dev Fund grant proposals: community funding requests tracked on GitHub. Filterable by state (open/closed/all). Use for 'what grants/funding requests exist' questions. NOT the same as Canton Improvement Proposals (CIPs): those are governance specs (use list_cips / get_cip). Returns number, title, state, author, and board status. Canton ecosystem only.
 
 <Accordions type="single">
   <Accordion title="Arguments">
-<ParamField path="state" type="string"></ParamField>
-<ParamField path="limit" type="integer"></ParamField>
+<ParamField path="state" type="string">Grant-request state on GitHub. Defaults to "open", so the total reported is open requests rather than every proposal ever filed.</ParamField>
+<ParamField path="limit" type="integer">How many proposals to return. Default 20, max 50. The response states the full count.</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
   </Accordion>
 </Accordions>
 
@@ -80,6 +100,46 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_proposals","arguments":{}}}'
+```
+
+---
+
+### `list_proposals_needing_champion`
+
+List open Canton Dev Fund proposals that have no champion confirmed by the Foundation's project board, oldest first, with what each PR text says about its champion. A proposal needs a champion, a sponsor from the Tech & Ops Committee, to move into review, and many stall without one. The bot labels needs-champion and champion-confirmed are deliberately NOT used as evidence: champion-confirmed is set from the PR text at filing and has been wrong. Evidence is the board column (champion assigned, Ready for Vote, Voting Live, Approved) plus what the PR text states. Many older proposals name their champion only in the proposal file, which CCPEDIA does not hold, so "not stated" does not mean "none". SIG-membership PRs are excluded. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="rfp" type="integer">Only proposals that declare this RFP number (label or PR text).</ParamField>
+<ParamField path="limit" type="integer">How many proposals to return. Default 20, max 50. The response states the full count.</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_proposals_needing_champion","arguments":{}}}'
+```
+
+---
+
+### `list_rfps`
+
+List the Canton Foundation Dev Fund Requests for Proposals (RFPs) from the 2026-2028 roadmap: number, title, category, and how many Dev Fund proposals declare each one. Pass number to read one RFP in full: what the Foundation asks for, its stated appetite for grants, prior funded examples, and the proposals declaring it. RFP numbers are the ones proposals and labels use (RFP 18 is Integration into SDLCs). A proposal counts only if a label or its PR text names the RFP, and most proposals do not, so a low count is not proof that an area is uncrowded. Canton-specific. To find the RFP that fits an idea use find_rfp_for_idea.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="number" type="integer">RFP number to read in full, e.g. 18. Omit to list every RFP.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_rfps","arguments":{}}}'
 ```
 
 ---
