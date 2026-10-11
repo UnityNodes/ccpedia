@@ -267,11 +267,12 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `search_dev_fund`
 
-Search ALL Canton Dev Fund text for words: proposal files, PR descriptions, every comment, formal review and inline review comment, ranked by relevance with a snippet around the match. Scope can be narrowed to comments, proposal_files or descriptions, and to one GitHub author. Use for "who said what about X", "which proposals mention Y", "did a reviewer object to Z". Lexical (words must appear). For a ranked pick among whole proposals by meaning of an idea use detect_builder_overlap or find_rfp_for_idea. Canton-specific.
+Search ALL Canton Dev Fund text for words: proposal files, PR descriptions, every comment, formal review and inline review comment, ranked by relevance with a snippet around the match. Scope can be narrowed to comments, proposal_files or descriptions, and to one GitHub author. Use for "who said what about X", "which proposals mention Y", "did a reviewer object to Z". Default mode "words" is lexical (the words must appear, exact and exhaustive). Mode "meaning" searches the same text by meaning with embeddings plus words, so "did anyone worry about validator uptime" finds a comment that never says uptime; it cannot be limited to one author. For a ranked pick among whole proposals for an idea use find_rfp_for_idea or detect_builder_overlap. Canton-specific.
 
 <Accordions type="single">
   <Accordion title="Arguments">
-<ParamField path="query" type="string" required>Words to look for, e.g. "indexer champion" or "volatility amendment".</ParamField>
+<ParamField path="query" type="string" required>Words to look for, e.g. "indexer champion" or "volatility amendment". In mode "meaning", a plain-language question or phrase.</ParamField>
+<ParamField path="mode" type="string">words (default): exact, exhaustive, every word must appear. meaning: closest by meaning, over comments, proposal files and PR descriptions; ignores author.</ParamField>
 <ParamField path="scope" type="string">all, comments (comments + reviews + inline review comments), proposal_files, or descriptions (titles and descriptions of pull requests and tracking issues).</ParamField>
 <ParamField path="author" type="string">GitHub login; limits comments and PR descriptions to that person.</ParamField>
 <ParamField path="limit" type="integer">How many hits to return. Default 10, max 30.</ParamField>

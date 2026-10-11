@@ -54,6 +54,7 @@ Find Canton/Daml code snippets in forum posts on a topic. Filters forum_posts wh
   <Accordion title="Arguments">
 <ParamField path="topic" type="string" required>Topic keyword.</ParamField>
 <ParamField path="limit" type="integer">Max rows (default 5).</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
   </Accordion>
 </Accordions>
 
@@ -68,7 +69,7 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `find_collaboration_opportunities`
 
-Given one Canton ecosystem project, find others with complementary tags/category that could plug in. Canton-specific. Lightweight heuristic. overlap of tags + adjacent categories.
+Given one Canton ecosystem project, find others with complementary tags/category that could plug in. Canton-specific. Lightweight heuristic: overlap of tags + adjacent categories.
 
 <Accordions type="single">
   <Accordion title="Arguments">
@@ -107,11 +108,11 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `find_known_issues`
 
-Surface known unresolved problems related to a free-text description. Pulls from forum threads with zero replies but high views, plus open GitHub issues. Canton-specific. Use for "is anyone else hitting this?" before posting a new question.
+Surface known UNRESOLVED problems matching a free-text description: forum threads with zero replies but high views, plus open GitHub issues. Answers "is anyone else hitting this?". Canton-specific. Does NOT return fixes, solutions, config, or how-to steps, and returns nothing when no open issue matches; for "how do I fix / configure / why does X happen" use semantic_search (then get_doc) instead.
 
 <Accordions type="single">
   <Accordion title="Arguments">
-<ParamField path="description" type="string" required>What you're seeing. short prose, not a stack trace (for that use diagnose_error).</ParamField>
+<ParamField path="description" type="string" required>What you're seeing. Short prose, not a stack trace (for that use diagnose_error).</ParamField>
 <ParamField path="limit" type="integer">Max rows per source (default 5).</ParamField>
   </Accordion>
 </Accordions>
@@ -165,12 +166,13 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `find_similar_projects`
 
-Find Canton ecosystem projects most similar to a free-text description by matching across title + category + description + tags. Canton-specific. Useful before proposing a project to check overlap.
+Find Canton ecosystem projects most similar to a free-text description by matching across title + category + description + tags: searches only the live ecosystem directory. Canton-specific. Useful before proposing a project to check overlap; to also check pending/past Dev Fund proposals for the same idea, use detect_builder_overlap instead.
 
 <Accordions type="single">
   <Accordion title="Arguments">
 <ParamField path="description" type="string" required>Project description / idea.</ParamField>
 <ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
   </Accordion>
 </Accordions>
 
@@ -185,7 +187,7 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `full_context`
 
-Single semantic query across CCPEDIA's entire corpus at once: docs, CIPs, forum, mailing, GitHub items, blog, videos, whitepapers, ecosystem projects. Canton-specific. Use for an exhaustive cross-source roundup on a topic; for narrow searches prefer the specialised tools.
+Single free-text query across CCPEDIA's entire corpus at once: docs, CIPs, forum, mailing, GitHub items, blog, videos, whitepapers, ecosystem projects. Canton-specific. Use for an exhaustive cross-source roundup on a topic described in words, even if that topic happens to be a known CIP's nickname (e.g. 'featured app locking'). This tool does not require a CIP id. If the user already gives a specific CIP id/number, use get_cip_citations instead for a deeper single-CIP citation graph. For narrow single-source searches prefer the specialised tools.
 
 <Accordions type="single">
   <Accordion title="Arguments">
@@ -205,13 +207,14 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `search`
 
-Keyword/full-text search over the Canton Network knowledge base (CIPs, Canton/Daml/Splice docs, forum, mailing lists, whitepapers, grant proposals, blog, YouTube, GitHub). Canton-specific. do NOT use for other blockchains, the web, or local files. Use this for exact-term/name lookups; use semantic_search instead for conceptual or 'how does X work' questions, and get_doc to read a full page once you have its id.
+Keyword/full-text search over the Canton Network knowledge base (CIPs, Canton/Daml/Splice docs, forum, mailing lists, whitepapers, grant proposals, blog, YouTube, GitHub). Canton-specific. Do NOT use for other blockchains, the web, or local files. Use this for exact-term/name lookups; use semantic_search instead for conceptual or 'how does X work' questions, and get_doc to read a full page once you have its id. NOTE: forum matches cover the topic TITLE and the FIRST POST only; a term that appears only inside a forum reply will not surface here, so use semantic_search (which indexes all forum post bodies) when a forum discussion is likely and this returns nothing.
 
 <Accordions type="single">
   <Accordion title="Arguments">
 <ParamField path="query" type="string" required>Search query</ParamField>
-<ParamField path="type" type="string"></ParamField>
-<ParamField path="limit" type="integer"></ParamField>
+<ParamField path="type" type="string">Restrict results to one source type; "governance" is the stated reasoning behind an on-chain DSO vote; "all" searches everything</ParamField>
+<ParamField path="limit" type="integer">Max results to return (1-50)</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
   </Accordion>
 </Accordions>
 
@@ -253,6 +256,7 @@ Full-text search across CCPEDIA's indexed GitHub issues (15+ Canton repos). Cant
 <ParamField path="query" type="string" required>Free-text query.</ParamField>
 <ParamField path="state" type="string">Issue state filter (default: all).</ParamField>
 <ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
   </Accordion>
 </Accordions>
 
@@ -271,9 +275,10 @@ Search across CCPEDIA's indexed Canton mailing-list archives (cip-discuss, cip-v
 
 <Accordions type="single">
   <Accordion title="Arguments">
-<ParamField path="query" type="string" required>Free-text query. appears in subject or body.</ParamField>
+<ParamField path="query" type="string" required>Free-text query. Appears in subject or body.</ParamField>
 <ParamField path="group" type="string">Optional group_slug filter, e.g. "cip-discuss".</ParamField>
 <ParamField path="limit" type="integer">Max rows (default 10).</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
   </Accordion>
 </Accordions>
 
@@ -311,8 +316,9 @@ Search CCPEDIA's indexed Canton talks/videos (YouTube transcripts). Canton-speci
 
 <Accordions type="single">
   <Accordion title="Arguments">
-<ParamField path="query" type="string" required>Free-text query. appears in title or transcript.</ParamField>
+<ParamField path="query" type="string" required>Free-text query. Appears in title or transcript.</ParamField>
 <ParamField path="limit" type="integer">Max rows (default 5).</ParamField>
+<ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit. The response states the full count and echoes the offset used.</ParamField>
   </Accordion>
 </Accordions>
 
@@ -327,13 +333,13 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `semantic_search`
 
-Conceptual/meaning-based search over the Canton Network corpus (CIPs, docs, forum, mailing lists, proposals, blog, releases, ecosystem, foundation KB, YouTube transcripts) using vector+FTS hybrid retrieval with reranking. Canton-specific. not for other chains or the web. Prefer this over the 'search' tool for open-ended 'how/why/what is' questions or when keyword search returns nothing; then call get_doc with a returned id to read the full source page.
+PRIMARY tool for open-ended questions: how / why / what-is, troubleshooting a symptom ("why is my balance zero", "how do I fix X"), and locating config or setup steps. Conceptual/meaning-based search over the full Canton corpus (CIPs, docs, forum, mailing lists, proposals, blog, releases, ecosystem, foundation KB, YouTube) using vector+FTS hybrid retrieval with reranking. Canton-specific. Use this FIRST for anything a specific tool does not clearly own; the narrow curated tools (get_faq, find_known_issues, diagnose_error) cover only small hand-picked sets or need a literal error string, so prefer semantic_search for real how/why/config questions. Then call get_doc with a returned id to read the full source page.
 
 <Accordions type="single">
   <Accordion title="Arguments">
 <ParamField path="query" type="string" required>Free-form question or phrase.</ParamField>
-<ParamField path="source_types" type="array">Restrict to these source types. Omit for all.</ParamField>
-<ParamField path="limit" type="integer"></ParamField>
+<ParamField path="source_types" type="array">Restrict to these source types. "proposal" is a Dev Fund grant request; "github_item" is an ordinary issue or PR from any other indexed repo; "sdk_version" is a released package version from the npm/Docker registries; "dev_fund_comment" is a comment, review or inline review comment on a Dev Fund PR; "dev_fund_file" is a proposal file. Omit for all.</ParamField>
+<ParamField path="limit" type="integer">How many chunks to return. Default 6, max 15. Capped at 2 per document so one long file cannot take every slot.</ParamField>
   </Accordion>
 </Accordions>
 
