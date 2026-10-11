@@ -28,7 +28,7 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `find_rfp_for_idea`
 
-Given a project idea, find which Canton Dev Fund RFP(s) it fits and how crowded that area is. Matches the idea against the RFP texts in the 2026-2028 roadmap (shared terms, shown), then for the best fits shows what the Foundation asks for, its stated appetite for grants, and the proposals that declare the RFP. Also shows the existing Dev Fund proposals closest to the idea by text whether or not they declared an RFP, because most never did. The match is lexical, so a fit with one or two shared terms is weak and flagged as such. If no RFP fits, the idea can still be filed as an individual initiative (outside the roadmap). Canton-specific. For the full RFP list use list_rfps; to include ecosystem projects as well as proposals use detect_builder_overlap.
+Given a project idea, find which Canton Dev Fund RFP(s) it fits and how crowded that area is. Matches the idea against the RFP texts in the 2026-2028 roadmap (shared terms, shown), then for the best fits shows what the Foundation asks for, its stated appetite for grants, and the proposals that declare the RFP. Also shows the existing Dev Fund proposals closest to the idea by text whether or not they declared an RFP, because most never did. The match is lexical, so a fit with few shared terms is weak and flagged as such. If no RFP fits, the idea can still be filed as an individual initiative (outside the roadmap). Canton-specific. For the full RFP list use list_rfps; to include ecosystem projects as well as proposals use detect_builder_overlap.
 
 <Accordions type="single">
   <Accordion title="Arguments">
@@ -106,7 +106,7 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `list_proposals_needing_champion`
 
-List open Canton Dev Fund proposals that have no champion confirmed by the Foundation's project board, oldest first, with what each PR text says about its champion. A proposal needs a champion, a sponsor from the Tech & Ops Committee, to move into review, and many stall without one. The bot labels needs-champion and champion-confirmed are deliberately NOT used as evidence: champion-confirmed is set from the PR text at filing and has been wrong. Evidence is the board column (champion assigned, Ready for Vote, Voting Live, Approved) plus what the PR text states. Many older proposals name their champion only in the proposal file, which CCPEDIA does not hold, so "not stated" does not mean "none". SIG-membership PRs are excluded. Canton-specific.
+List open Canton Dev Fund proposals waiting in the Needs Champion or Incoming columns of the Foundation's project board, i.e. with no champion confirmed there, oldest first, with what each PR text says about its champion. A proposal needs a champion, a sponsor from the Tech & Ops Committee, to move into review, and many stall without one. The bot labels needs-champion and champion-confirmed are deliberately NOT used as evidence: champion-confirmed is set from the PR text at filing and has been wrong. Evidence is the board column (champion assigned, Ready for Vote, Voting Live, Approved) plus what the PR text states. Many older proposals name their champion only in the proposal file, which CCPEDIA does not hold, so "not stated" does not mean "none". SIG-membership PRs are excluded. Canton-specific.
 
 <Accordions type="single">
   <Accordion title="Arguments">
