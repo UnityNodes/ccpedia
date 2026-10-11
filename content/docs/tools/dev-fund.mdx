@@ -212,7 +212,7 @@ List open Canton Dev Fund proposals waiting in the Needs Champion or Incoming co
 
 <Accordions type="single">
   <Accordion title="Arguments">
-<ParamField path="rfp" type="integer">Only proposals that declare this RFP number (label or PR text).</ParamField>
+<ParamField path="rfp" type="integer">Only proposals that declare this RFP number (label, PR text, title or proposal file).</ParamField>
 <ParamField path="limit" type="integer">How many proposals to return. Default 20, max 50. The response states the full count.</ParamField>
 <ParamField path="offset" type="integer">Skip this many before returning, for paging past the limit.</ParamField>
   </Accordion>
@@ -229,7 +229,7 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `list_rfps`
 
-List the Canton Foundation Dev Fund Requests for Proposals (RFPs) from the 2026-2028 roadmap: number, title, category, and how many Dev Fund proposals declare each one. Pass number to read one RFP in full: what the Foundation asks for, its stated appetite for grants, prior funded examples, and the proposals declaring it. RFP numbers are the ones proposals and labels use (RFP 18 is Integration into SDLCs). A proposal counts only if a label or its PR text names the RFP, and most proposals do not, so a low count is not proof that an area is uncrowded. Canton-specific. To find the RFP that fits an idea use find_rfp_for_idea.
+List the Canton Foundation Dev Fund Requests for Proposals (RFPs) from the 2026-2028 roadmap: number, title, category, and how many Dev Fund proposals declare each one. Pass number to read one RFP in full: what the Foundation asks for, its stated appetite for grants, prior funded examples, and the proposals declaring it. RFP numbers are the ones proposals and labels use (RFP 18 is Integration into SDLCs). A proposal counts only if a label, its PR text, its title or its proposal file names the RFP, and most proposals do not, so a low count is not proof that an area is uncrowded. Canton-specific. To find the RFP that fits an idea use find_rfp_for_idea.
 
 <Accordions type="single">
   <Accordion title="Arguments">
