@@ -272,7 +272,7 @@ Search ALL Canton Dev Fund text for words: proposal files, PR descriptions, ever
 <Accordions type="single">
   <Accordion title="Arguments">
 <ParamField path="query" type="string" required>Words to look for, e.g. "indexer champion" or "volatility amendment". In mode "meaning", a plain-language question or phrase.</ParamField>
-<ParamField path="mode" type="string">words (default): exact, exhaustive, every word must appear. meaning: closest by meaning, over comments, proposal files and PR descriptions; ignores author.</ParamField>
+<ParamField path="mode" type="string">words (default): exact, exhaustive, every word must appear. meaning: best match by meaning and words together, over comments, proposal files and PR descriptions; does not support the author filter.</ParamField>
 <ParamField path="scope" type="string">all, comments (comments + reviews + inline review comments), proposal_files, or descriptions (titles and descriptions of pull requests and tracking issues).</ParamField>
 <ParamField path="author" type="string">GitHub login; limits comments and PR descriptions to that person.</ParamField>
 <ParamField path="limit" type="integer">How many hits to return. Default 10, max 30.</ParamField>
