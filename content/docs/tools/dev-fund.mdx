@@ -1,11 +1,11 @@
 ---
 title: "Dev Fund"
-description: "Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps."
+description: "Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps, full proposal dossiers, discussion, files and search."
 ---
 
-Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps.
+Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps, full proposal dossiers, discussion, files and search.
 
-8 tools in this group.
+14 tools in this group.
 
 ### `detect_builder_overlap`
 
@@ -45,6 +45,47 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ---
 
+### `get_dev_fund_activity`
+
+What happened in the Canton Dev Fund lately, newest first: new comments and reviews with a snippet, and (optionally) timeline events such as labels added, reviewers requested, proposals renamed, merged, closed or moved on the project board. Use for "what is going on in the Dev Fund", "what did the committee say this week", "which proposals just got reviewed". Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="days" type="integer">Look back this many days. Default 7, max 120.</ParamField>
+<ParamField path="include_events" type="boolean">Also list timeline events (labels, reviewer requests, renames, board moves). Default true.</ParamField>
+<ParamField path="limit" type="integer">How many entries. Default 20, max 50.</ParamField>
+<ParamField path="offset" type="integer">Skip this many entries, for paging.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_dev_fund_activity","arguments":{}}}'
+```
+
+---
+
+### `get_dev_fund_person`
+
+Who is this person in the Canton Dev Fund, by GitHub login: their SIG memberships and organization (from the SIG directory), the proposals they authored, how much they comment and review (and how often they approve or request changes), which proposals asked them to review, which they were assigned, and where a champion line names them. Use to judge who a possible champion or reviewer is and how responsive they are. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="login" type="string" required>GitHub login, e.g. "waynecollier-da" or "srikanth-bitdynamics".</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_dev_fund_person","arguments":{}}}'
+```
+
+---
+
 ### `get_funding_landscape`
 
 Overview of the Canton Dev Fund: counts of proposals by state and label, top categories, and recent activity. Canton-specific. Use to gauge whether a category is over- or under-funded before proposing.
@@ -60,6 +101,67 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_funding_landscape","arguments":{}}}'
+```
+
+---
+
+### `get_proposal`
+
+Everything CCPEDIA holds about ONE Canton Dev Fund proposal (a pull request in canton-foundation/canton-dev-fund), by its PR number: state and project-board column, labels, the facts parsed from the proposal file (organization, author, declared RFP, champion, funding in CC, duration, SIG label, milestones), champion evidence (board column, proposal file, PR text), reviewers, discussion statistics, and the timeline of label, reviewer, rename and board events. Use after get_proposals, list_proposals_needing_champion or search_dev_fund returned a number. For the full conversation use get_proposal_discussion, for the full proposal text get_proposal_file. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="number" type="integer" required>PR (or issue) number in canton-foundation/canton-dev-fund, e.g. 439.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_proposal","arguments":{}}}'
+```
+
+---
+
+### `get_proposal_discussion`
+
+The conversation on ONE Canton Dev Fund proposal, oldest first: every comment, every formal review (approved, changes requested, commented) and every inline review comment on the proposal file, with author, GitHub role (member, collaborator, none), date, and the text. Pages with offset. Use to read what reviewers, champions and the committee actually said, or why a proposal stalled. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="number" type="integer" required>PR (or issue) number in canton-foundation/canton-dev-fund.</ParamField>
+<ParamField path="kind" type="string">Only this kind: issue_comment (conversation), review_comment (inline on the file), review (a formal review verdict).</ParamField>
+<ParamField path="limit" type="integer">How many entries to return. Default 10, max 30. The response states the full count.</ParamField>
+<ParamField path="offset" type="integer">Skip this many entries, for paging.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_proposal_discussion","arguments":{}}}'
+```
+
+---
+
+### `get_proposal_file`
+
+The full text of the proposal file(s) a Canton Dev Fund PR adds (proposals/*.md or rfps/&lt;category&gt;/*.md), exactly as in the PR head: abstract, specification, milestones, acceptance criteria, funding. A PR can add several files; pass path to pick one. Use after get_proposal when the details matter. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="number" type="integer" required>PR number in canton-foundation/canton-dev-fund.</ParamField>
+<ParamField path="path" type="string">One of the paths listed for that PR. Omit for the first file.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_proposal_file","arguments":{}}}'
 ```
 
 ---
@@ -159,5 +261,28 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"proposal_success_predictor","arguments":{}}}'
+```
+
+---
+
+### `search_dev_fund`
+
+Search ALL Canton Dev Fund text for words: proposal files, PR descriptions, every comment, formal review and inline review comment, ranked by relevance with a snippet around the match. Scope can be narrowed to comments, proposal_files or proposals, and to one GitHub author. Use for "who said what about X", "which proposals mention Y", "did a reviewer object to Z". Lexical (words must appear). For a ranked pick among whole proposals by meaning of an idea use detect_builder_overlap or find_rfp_for_idea. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="query" type="string" required>Words to look for, e.g. "indexer champion" or "volatility amendment".</ParamField>
+<ParamField path="scope" type="string">all, comments (comments + reviews + inline review comments), proposal_files, or proposals (PR/issue titles and descriptions).</ParamField>
+<ParamField path="author" type="string">GitHub login; limits comments and PR descriptions to that person.</ParamField>
+<ParamField path="limit" type="integer">How many hits to return. Default 10, max 30.</ParamField>
+<ParamField path="offset" type="integer">Skip this many hits, for paging.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"search_dev_fund","arguments":{}}}'
 ```
 
