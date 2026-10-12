@@ -28,12 +28,12 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `find_duplicate_proposals`
 
-Find Canton Dev Fund proposals that duplicate, re-file or overlap each other, from the proposal files compared by meaning plus identical text, title, author and organization. Without a number it lists groups (for example the same text filed twice, a team re-filing under Dev Fund 2.0, two teams building the same indexer), by default only groups with an open proposal; with a number it lists the closest proposals to that one with the evidence. Each group states its relation (exact duplicate, likely resubmission, likely duplicate by another filer, overlap, possible overlap, related by the same applicant, likely amendment), a confidence and the numbers behind it. Overlap is a lead to read both proposals, not a verdict; possible overlap is wrong more often than right and is left out unless asked for. Canton-specific.
+Find Canton Dev Fund proposals that duplicate, re-file or overlap each other, from the proposal files compared by meaning plus identical text, title, author and organization. Without a number it lists groups (for example the same text filed twice, a team re-filing under Dev Fund 2.0, two teams building the same indexer), by default only groups with an open proposal; with a number it lists the closest proposals to that one with the evidence. Each group states its relation (exact duplicate, likely resubmission, likely duplicate by another filer, overlap, possible overlap, related by the same applicant, likely amendment), a confidence and the numbers behind it. Overlap is a lead to read both proposals, not a verdict; possible overlap is wrong more often than right, and amendments and same-applicant relations are left out unless asked for. Canton-specific.
 
 <Accordions type="single">
   <Accordion title="Arguments">
 <ParamField path="number" type="integer">A proposal (PR) number: list the proposals closest to it instead of listing groups.</ParamField>
-<ParamField path="relations" type="array">Only these relations. Default: everything except possible-overlap.</ParamField>
+<ParamField path="relations" type="array">Only these relations. Default: exact-duplicate, likely-duplicate, likely-resubmission and overlap, the same set the Dev Fund Navigator page counts. likely-amendment (maintainer edits), same-applicant-related and possible-overlap only when asked for.</ParamField>
 <ParamField path="scope" type="string">open (default): groups with at least one open proposal. all: every group, closed ones too.</ParamField>
 <ParamField path="min_similarity" type="number">Raise the similarity floor, 0 to 1 on the proposal-file comparison. Defaults are the validated thresholds.</ParamField>
 <ParamField path="limit" type="integer">How many groups or neighbours. Default 10, max 30. The response states the full count.</ParamField>
