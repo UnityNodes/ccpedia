@@ -187,7 +187,7 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `get_proposals`
 
-List Canton Network Dev Fund grant proposals: community funding requests tracked on GitHub. Filterable by state (open/closed/all). Use for 'what grants/funding requests exist' questions. NOT the same as Canton Improvement Proposals (CIPs): those are governance specs (use list_cips / get_cip). Returns number, title, state, author, and board status. Canton ecosystem only.
+List Canton Network Dev Fund grant proposals: community funding requests tracked on GitHub. Filterable by state (open/closed/all). Use for 'what grants/funding requests exist' questions. NOT the same as Canton Improvement Proposals (CIPs): those are governance specs (use list_cips / get_cip). Returns number, title, state, author, board status and how many people commented; it is only an index. For one proposal in full (champion evidence, proposal file, every comment, review and timeline event) call get_proposal and get_proposal_discussion. Canton ecosystem only.
 
 <Accordions type="single">
   <Accordion title="Arguments">
