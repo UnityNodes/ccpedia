@@ -1,11 +1,11 @@
 ---
 title: "Dev Fund"
-description: "Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps, full proposal dossiers, discussion, files and search."
+description: "Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps, full proposal dossiers, discussion, files and search, lifecycle analytics, stuck proposals and duplicate detection."
 ---
 
-Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps, full proposal dossiers, discussion, files and search.
+Canton Dev Fund proposal intelligence. Open asks, milestones, builder overlap detection, success prediction, RFP matching, champion gaps, full proposal dossiers, discussion, files and search, lifecycle analytics, stuck proposals and duplicate detection.
 
-14 tools in this group.
+17 tools in this group.
 
 ### `detect_builder_overlap`
 
@@ -22,6 +22,30 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"detect_builder_overlap","arguments":{}}}'
+```
+
+---
+
+### `find_duplicate_proposals`
+
+Find Canton Dev Fund proposals that duplicate, re-file or overlap each other, from the proposal files compared by meaning plus identical text, title, author and organization. Without a number it lists groups (for example the same text filed twice, a team re-filing under Dev Fund 2.0, two teams building the same indexer), by default only groups with an open proposal; with a number it lists the closest proposals to that one with the evidence. Each group states its relation (exact duplicate, likely resubmission, likely duplicate by another filer, overlap, possible overlap, related by the same applicant, likely amendment), a confidence and the numbers behind it. Overlap is a lead to read both proposals, not a verdict; possible overlap is wrong more often than right and is left out unless asked for. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="number" type="integer">A proposal (PR) number: list the proposals closest to it instead of listing groups.</ParamField>
+<ParamField path="relations" type="array">Only these relations. Default: everything except possible-overlap.</ParamField>
+<ParamField path="scope" type="string">open (default): groups with at least one open proposal. all: every group, closed ones too.</ParamField>
+<ParamField path="min_similarity" type="number">Raise the similarity floor, 0 to 1 on the proposal-file comparison. Defaults are the validated thresholds.</ParamField>
+<ParamField path="limit" type="integer">How many groups or neighbours. Default 10, max 30. The response states the full count.</ParamField>
+<ParamField path="offset" type="integer">Skip this many groups, for paging.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"find_duplicate_proposals","arguments":{}}}'
 ```
 
 ---
@@ -63,6 +87,26 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_dev_fund_activity","arguments":{}}}'
+```
+
+---
+
+### `get_dev_fund_lifecycle`
+
+How Canton Dev Fund proposals actually move through the Foundation project board, from the recorded column history: the funnel (how many reach each column), median and p90 days in each column, time to decision, time to the first human response, how many open proposals wait on the applicant, the committee, a vote or nobody, bot labels against the board, and steps back. Pass number for one proposal: every stay in a column with the date and who moved it, its waiting state with the reason, first response, votes and steps back. Pass view "flow" for the weekly opened, voting, approved and closed counts and the open backlog. Percentiles are linear interpolation; open proposals are never mixed into completed-stay statistics; every figure carries its n and the board history has known gaps, stated in the answer. Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="number" type="integer">A proposal (PR) number: its own history instead of the overview.</ParamField>
+<ParamField path="view" type="string">overview (default) or flow (weekly numbers). Ignored when number is given.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_dev_fund_lifecycle","arguments":{}}}'
 ```
 
 ---
@@ -242,6 +286,28 @@ curl -X POST https://ccpedia.xyz/mcp \
   -H 'content-type: application/json' \
   -H 'accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_rfps","arguments":{}}}'
+```
+
+---
+
+### `list_stuck_proposals`
+
+Open Canton Dev Fund proposals that nothing has happened on for at least a number of days (no human comment, review or board move), oldest first, grouped by who the next step is on: the applicant (the committee asked for changes), the committee (someone is assigned or it is ready for a vote), nobody picked it up (no champion, no reviewer), or a vote. Each item states the reason in plain words and who acted last. Proposals whose board history is incomplete are listed apart as unplaced. Use for "what is stuck and on whom". Canton-specific.
+
+<Accordions type="single">
+  <Accordion title="Arguments">
+<ParamField path="waiting_on" type="string">Only proposals whose next step is on this side.</ParamField>
+<ParamField path="stuck_days" type="integer">Idle for at least this many days. Default 30.</ParamField>
+<ParamField path="limit" type="integer">How many proposals. Default 20, max 50. The response states the full count.</ParamField>
+<ParamField path="offset" type="integer">Skip this many, for paging.</ParamField>
+  </Accordion>
+</Accordions>
+
+```bash
+curl -X POST https://ccpedia.xyz/mcp \
+  -H 'content-type: application/json' \
+  -H 'accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_stuck_proposals","arguments":{}}}'
 ```
 
 ---
