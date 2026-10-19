@@ -28,7 +28,7 @@ curl -X POST https://ccpedia.xyz/mcp \
 
 ### `get_network_state`
 
-Get the latest Canton Network ON-CHAIN state snapshot from the public Scan API (api.cantonnodes.com): Super Validator list & count, voting threshold, sequencer count, latest mining round, featured-apps count, and cumulative app/validator rewards in CC. Canton-only, cached snapshot (captured_at). This is live network telemetry. NOT CCPEDIA content counts (get_network_stats) and NOT price/TVL (get_token_market).
+Get the latest Canton Network ON-CHAIN state snapshot from the public Scan API (api.cantonnodes.com): Super Validator list & count, voting threshold, sequencer count, latest mining round, featured-apps count, and the last published cumulative app/validator rewards in CC with the closed round and date they describe (flagged when upstream has stopped publishing them). Canton-only, cached snapshot (captured_at). This is live network telemetry. NOT CCPEDIA content counts (get_network_stats) and NOT price/TVL (get_token_market).
 
 <Accordions type="single">
   <Accordion title="Arguments">
